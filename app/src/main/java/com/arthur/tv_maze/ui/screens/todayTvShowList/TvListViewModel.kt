@@ -29,7 +29,7 @@ class TvListViewModel @Inject constructor(
         getTvShowList()
     }
 
-    private fun getTvShowList() {
+    fun getTvShowList() {
         vmUiState.update { it.copy(loading = true) }
         viewModelScope.launch {
             tvMazeTasks.getTvMazeShowList().collect { todayTvShow ->
@@ -42,5 +42,9 @@ class TvListViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+    fun setActiveSearchState(state: Boolean) {
+        vmUiState.update { it.copy(activeSearch = state) }
     }
 }

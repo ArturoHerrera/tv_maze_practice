@@ -1,8 +1,11 @@
 package com.arthur.tv_maze.ui.screens.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Icon
@@ -10,6 +13,7 @@ import androidx.compose.material.IconButton
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -17,12 +21,38 @@ import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.unit.dp
+import com.arthur.tv_maze.utils.DateUtils
+
+@Composable
+fun TopBarComponent(
+    onSearchClicked: () -> Unit
+) {
+    Row(
+        modifier = Modifier
+            .background(Color.Gray)
+            .fillMaxWidth()
+            .padding(16.dp),
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        Text(
+            text = DateUtils.getCurrentDateLarge(),
+            color = Color.White
+        )
+        Icon(
+            imageVector = Icons.Filled.Search,
+            contentDescription = "Botón para buscar",
+            tint = Color.White,
+            modifier = Modifier.clickable { onSearchClicked() }
+        )
+    }
+}
 
 @Composable
 fun SearchBar(
     onWriteQuery: (String) -> Unit,
-    onSearchClicked: () -> Unit,
     onFocusClear: () -> Unit,
+    onBack: () -> Unit,
     hideKeyboard: Boolean = false
 ) {
 
@@ -33,21 +63,24 @@ fun SearchBar(
 
     Row(
         modifier = Modifier
-            .background(Color.Gray)
+            .background(Color.White)
             .fillMaxWidth()
     ) {
         TextField(
             modifier = Modifier
                 .fillMaxWidth()
-                .onFocusChanged {
-                    isHintDisplayed = it.hasFocus != true
-                },
+                .onFocusChanged { isHintDisplayed = it.hasFocus != true },
             value = query,
             onValueChange = {
                 query = it
                 //onWriteQuery(query)
             },
-            label = { Text(text = "Buscar...", color = Color.White) },
+            label = {
+                Text(
+                    text = "Buscar...",
+                    color = Color.Black
+                )
+            },
             placeholder = { Text("") },
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
             keyboardActions = KeyboardActions(onSearch = {
@@ -56,6 +89,18 @@ fun SearchBar(
             }),
             maxLines = 1,
             singleLine = true,
+            leadingIcon = {
+                IconButton(onClick = {
+                    focusManager.clearFocus()
+                    onBack()
+                }) {
+                    Icon(
+                        imageVector = Icons.Filled.ArrowBack,
+                        contentDescription = "Botón para regresar",
+                        tint = Color.Black
+                    )
+                }
+            },
             trailingIcon = {
                 IconButton(onClick = {
                     focusManager.clearFocus()
@@ -64,7 +109,7 @@ fun SearchBar(
                     Icon(
                         imageVector = Icons.Filled.Search,
                         contentDescription = "Botón para buscar",
-                        tint = Color.White
+                        tint = Color.Black
                     )
                 }
             }
@@ -73,7 +118,6 @@ fun SearchBar(
 
     if (hideKeyboard) {
         focusManager.clearFocus()
-        // Call onFocusClear to reset hideKeyboard state to false
         onFocusClear()
     }
 }

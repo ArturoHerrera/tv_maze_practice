@@ -14,4 +14,11 @@ object DateUtils {
         } else {
             SimpleDateFormat(patter).format(Calendar.getInstance().time)
         }
+
+    fun getCurrentDateLarge(patter: String = "EEEE dd 'de' MMMM uuuu"): String =
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            LocalDateTime.now().format(DateTimeFormatter.ofPattern(patter, Locale("es", "ES")))
+        } else {
+            SimpleDateFormat(patter).format(Calendar.getInstance().time)
+        }
 }

@@ -4,6 +4,7 @@ import com.arthur.tv_maze.data.model.TvShowSimple
 
 data class TvListUiState(
     val loading: Boolean = false,
+    val activeSearch: Boolean = false,
     val errorMessage: String? = null,
-    val todayTvShowList: List<TvShowSimple> = emptyList(),
+    val todayTvShowList: List<TvShowSimple> = emptyList()
 )

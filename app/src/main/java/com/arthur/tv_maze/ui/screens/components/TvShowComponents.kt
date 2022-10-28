@@ -1,5 +1,6 @@
 package com.arthur.tv_maze.ui.screens.components
 
+import androidx.compose.animation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
