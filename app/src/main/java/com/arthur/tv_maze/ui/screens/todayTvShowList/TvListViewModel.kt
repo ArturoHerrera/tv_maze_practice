@@ -1,9 +1,11 @@
 package com.arthur.tv_maze.ui.screens.todayTvShowList
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.arthur.tv_maze.data.repository.tv_list_repository.repositorys.TvMazeTasks
 import com.arthur.tv_maze.ui.screens.todayTvShowList.TvListUiState
+import com.google.gson.Gson
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
@@ -46,5 +48,20 @@ class TvListViewModel @Inject constructor(
 
     fun setActiveSearchState(state: Boolean) {
         vmUiState.update { it.copy(activeSearch = state) }
+    }
+
+    fun clearTvShowList() {
+        vmUiState.update { it.copy(finderTvShowList = emptyList()) }
+    }
+
+    fun setQuery(query: String) {
+        vmUiState.update { it.copy(query = query) }
+    }
+
+    fun filterTvShow(query: String) {
+        if(uiState.value.todayTvShowList.isNotEmpty()){
+            val mTvShowList = uiState.value.todayTvShowList.filter { it.name?.contains(query, true)!! }
+            vmUiState.update { it.copy(finderTvShowList = mTvShowList) }
+        }
     }
 }

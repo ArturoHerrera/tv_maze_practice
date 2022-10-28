@@ -8,13 +8,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.Text
-import androidx.compose.material.TextField
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
@@ -22,6 +18,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
+import com.arthur.tv_maze.ui.theme.MazeGreen
 import com.arthur.tv_maze.utils.DateUtils
 
 @Composable
@@ -71,16 +68,21 @@ fun SearchBar(
                 .fillMaxWidth()
                 .onFocusChanged { isHintDisplayed = it.hasFocus != true },
             value = query,
-            onValueChange = {
-                query = it
-                //onWriteQuery(query)
-            },
+            onValueChange = { query = it },
             label = {
                 Text(
-                    text = "Buscar...",
+                    text = "Buscar",
                     color = Color.Black
                 )
             },
+            colors = TextFieldDefaults.textFieldColors(
+                backgroundColor = Color.White,
+                cursorColor = MazeGreen,
+                textColor = MazeGreen,
+                disabledLabelColor = Color.White,
+                focusedIndicatorColor = Color.Transparent,
+                unfocusedIndicatorColor = Color.Transparent
+            ),
             placeholder = { Text("") },
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
             keyboardActions = KeyboardActions(onSearch = {
@@ -91,14 +93,26 @@ fun SearchBar(
             singleLine = true,
             leadingIcon = {
                 IconButton(onClick = {
-                    focusManager.clearFocus()
-                    onBack()
+                    if(query.isNotEmpty()){
+                        query = ""
+                    } else {
+                        focusManager.clearFocus()
+                        onBack()
+                    }
                 }) {
-                    Icon(
-                        imageVector = Icons.Filled.ArrowBack,
-                        contentDescription = "Botón para regresar",
-                        tint = Color.Black
-                    )
+                    if(query.isNotEmpty()){
+                        Icon(
+                            imageVector = Icons.Filled.Clear,
+                            contentDescription = "Botón para regresar",
+                            tint = Color.Black
+                        )
+                    } else {
+                        Icon(
+                            imageVector = Icons.Filled.ArrowBack,
+                            contentDescription = "Botón para regresar",
+                            tint = Color.Black
+                        )
+                    }
                 }
             },
             trailingIcon = {

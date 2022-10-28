@@ -6,5 +6,7 @@ data class TvListUiState(
     val loading: Boolean = false,
     val activeSearch: Boolean = false,
     val errorMessage: String? = null,
-    val todayTvShowList: List<TvShowSimple> = emptyList()
+    val query: String = "",
+    val todayTvShowList: List<TvShowSimple> = emptyList(),
+    val finderTvShowList: List<TvShowSimple> = emptyList()
 )

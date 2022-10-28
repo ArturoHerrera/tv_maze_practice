@@ -18,10 +18,8 @@ class TvListRepository(
     override suspend fun getTvMazeShowList(): Flow<TodayTvShowList> = flow {
         emit(tvListRemoteDS.getTodayTvShowList())
     }.map { result ->
-        Log.i("testResult", "TvListRepository getTvMazeShowList result success: ${result.succeeded}")
         if (result.succeeded) {
             val mList = result.getDto().map { mTvResponseDto ->
-                Log.i("testResult", "TvListRepository getTvMazeShowList result.getDto() name: ${mTvResponseDto?.name}")
                 TvShowSimple.Builder()
                     .setId(mTvResponseDto?.show?.id)
                     .setName(mTvResponseDto?.show?.name)
@@ -35,7 +33,6 @@ class TvListRepository(
             }
             TodayTvShowList(TvShowSimpleList = mList, errorMessage = null)
         } else {
-            Log.i("testResult", "TvListRepository getTvMazeShowList result.getMessage(): ${result.getMessage()}")
             TodayTvShowList(TvShowSimpleList = emptyList(), errorMessage = result.getMessage())
         }
     }

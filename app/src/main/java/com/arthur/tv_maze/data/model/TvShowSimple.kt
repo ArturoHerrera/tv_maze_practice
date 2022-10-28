@@ -24,19 +24,19 @@ class TvShowSimple private constructor(
     ) {
         fun setId(id: Long?) = apply { this.id = id ?: -1 }
 
-        fun setName(name: String?) = apply { this.name = name ?: "" }
+        fun setName(name: String?) = apply { this.name = name ?: "--" }
 
-        fun setNetworkName(networkName: String?) = apply { this.networkName = networkName ?: "" }
+        fun setNetworkName(networkName: String?) = apply { this.networkName = networkName ?: "--" }
 
-        fun setAirDate(airDate: String?) = apply { this.airDate = airDate ?: "" }
+        fun setAirDate(airDate: String?) = apply { this.airDate = airDate ?: "--" }
 
-        fun setAirTime(airTime: String?) = apply { this.airTime = airTime ?: "" }
+        fun setAirTime(airTime: String?) = apply { this.airTime = airTime ?: "--" }
 
-        fun setTime(time: String?) = apply { this.time = time ?: "" }
+        fun setTime(time: String?) = apply { this.time = time ?: "--" }
 
         fun setDays(days: List<String>?) = apply { this.days = days ?: emptyList() }
 
-        fun setPosterUrl(posterUrl: String?) = apply { this.posterUrl = posterUrl ?: "" }
+        fun setPosterUrl(posterUrl: String?) = apply { this.posterUrl = posterUrl ?: "--" }
 
         fun setError(error: String?) = apply { this.error = error ?: "Error desconocido" }
 

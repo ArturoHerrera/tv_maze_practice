@@ -1,5 +1,6 @@
 package com.arthur.tv_maze.ui.screens.todayTvShowList
 
+import android.content.res.Configuration
 import android.util.Log
 import androidx.compose.animation.*
 import androidx.compose.foundation.*
@@ -8,6 +9,7 @@ import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.arthur.tv_maze.ui.screens.components.ProgressBar
 import com.arthur.tv_maze.ui.screens.components.SearchBar
@@ -24,55 +26,50 @@ fun TvListScreen(
     viewModel: TvListViewModel = hiltViewModel()
 ) {
     val scaffoldState = rememberScaffoldState()
-
     val uiState by viewModel.uiState.collectAsState()
-
     var hideKeyboard by remember { mutableStateOf(false) }
 
     Scaffold(
         scaffoldState = scaffoldState,
         topBar = {
             if (uiState.activeSearch) {
-                AnimatedVisibility(
-                    uiState.activeSearch,
-                    enter = fadeIn() ,
-                    exit = fadeOut()
-                ) {
-                    SearchBar(
-                        hideKeyboard = hideKeyboard,
-                        onFocusClear = { hideKeyboard = false },
-                        onBack = {
-                            viewModel.setActiveSearchState(false)
-                            viewModel.getTvShowList()
-                        },
-                        onWriteQuery = {
-                            Log.i("testSearch", "query --> $it")
-                        }
-                    )
-                }
+                SearchBar(
+                    hideKeyboard = hideKeyboard,
+                    onFocusClear = { hideKeyboard = false },
+                    onBack = {
+                        viewModel.setActiveSearchState(false)
+                        viewModel.setQuery("")
+                        viewModel.getTvShowList()
+                    },
+                    onWriteQuery = { query ->
+                        viewModel.setQuery(query)
+                        viewModel.filterTvShow(query)
+                    }
+                )
             } else {
-                AnimatedVisibility(
-                    !uiState.activeSearch,
-                    enter = fadeIn(),
-                    exit = fadeOut()
-                ) {
-                    TopBarComponent(onSearchClicked = {
-                        viewModel.setActiveSearchState(true)
-                    })
-                }
+                TopBarComponent(onSearchClicked = {
+                    viewModel.setActiveSearchState(true)
+                })
             }
         }
     ) { paddingValues ->
-
         Box {
             Column(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(paddingValues)
-                    .background(Color.Black),
+                    .background(Color.Black.copy(alpha = 0.75f)),
                 verticalArrangement = Arrangement.Top
             ) {
-                TvShowTodayList(uiState.todayTvShowList)
+                TvShowTodayList(
+                    todayTvShowList = uiState.todayTvShowList,
+                    finderTvShowList = uiState.finderTvShowList,
+                    isFindertMode = uiState.activeSearch,
+                    isPortraitMode = LocalConfiguration.current.orientation == Configuration.ORIENTATION_PORTRAIT,
+                    onMediaClick = {
+                        Log.i("testSearch", "onMediaClick id --> $it")
+                    }
+                )
             }
         }
         ProgressBar(state = uiState.loading)
