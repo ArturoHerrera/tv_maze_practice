@@ -10,6 +10,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalDensity
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.arthur.tv_maze.ui.screens.components.ProgressBar
 import com.arthur.tv_maze.ui.screens.components.SearchBar
@@ -28,6 +29,8 @@ fun TvListScreen(
     val scaffoldState = rememberScaffoldState()
     val uiState by viewModel.uiState.collectAsState()
     var hideKeyboard by remember { mutableStateOf(false) }
+
+    val dpi = LocalDensity.current.density
 
     Scaffold(
         scaffoldState = scaffoldState,
@@ -62,6 +65,7 @@ fun TvListScreen(
                 verticalArrangement = Arrangement.Top
             ) {
                 TvShowTodayList(
+                    dpi = dpi,
                     todayTvShowList = uiState.todayTvShowList,
                     finderTvShowList = uiState.finderTvShowList,
                     isFindertMode = uiState.activeSearch,

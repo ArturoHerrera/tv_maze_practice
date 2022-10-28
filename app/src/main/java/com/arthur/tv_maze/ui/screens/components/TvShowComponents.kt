@@ -26,7 +26,6 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.arthur.tv_maze.data.model.TvShowSimple
 import com.arthur.tv_maze.utils.StringUtils
-import com.google.gson.Gson
 import kotlin.random.Random
 
 @Composable
@@ -35,6 +34,7 @@ fun TvShowTodayList(
     finderTvShowList: List<TvShowSimple>,
     isPortraitMode: Boolean = true,
     isFindertMode: Boolean = false,
+    dpi: Float = 0f,
     onMediaClick: (Long) -> Unit
 ) {
     if (isFindertMode) {
@@ -56,7 +56,7 @@ fun TvShowTodayList(
         } else {
             LazyVerticalGrid(
                 state = rememberLazyGridState(),
-                columns = GridCells.Fixed(5),
+                columns = GridCells.Fixed(if (dpi >= 2.0) 5 else 7),
                 verticalArrangement = Arrangement.spacedBy(8.dp),
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
@@ -87,7 +87,7 @@ fun TvShowTodayList(
         } else {
             LazyVerticalGrid(
                 state = rememberLazyGridState(),
-                columns = GridCells.Fixed(5),
+                columns = GridCells.Fixed(if (dpi >= 2.0) 5 else 7),
                 verticalArrangement = Arrangement.spacedBy(8.dp),
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
@@ -181,7 +181,7 @@ fun TvShowListItemPortraitMode(tvShow: TvShowSimple, onMediaClick: (Long) -> Uni
 @Composable
 fun TvShowListItemLandscapeMode(tvShow: TvShowSimple, onMediaClick: (Long) -> Unit) {
     Card(
-        backgroundColor = Color(Random.nextInt(256), Random.nextInt(256), Random.nextInt(256)),
+        backgroundColor = Color.Black,
         modifier = Modifier
             .size(130.dp, 210.dp)
             .padding(8.dp),
@@ -227,7 +227,6 @@ fun TvShowListItemLandscapeMode(tvShow: TvShowSimple, onMediaClick: (Long) -> Un
         }
     }
 }
-
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
