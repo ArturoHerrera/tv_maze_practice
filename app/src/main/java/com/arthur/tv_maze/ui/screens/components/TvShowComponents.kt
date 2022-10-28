@@ -1,30 +1,38 @@
 package com.arthur.tv_maze.ui.screens.components
 
-import androidx.compose.animation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Card
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.ui.graphics.Color
 import com.arthur.tv_maze.R
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.arthur.tv_maze.data.model.TvShowSimple
+import kotlin.random.Random
 
 @Composable
-fun TvShowTodayList(todayTvShowList: List<TvShowSimple>) {
+fun TvShowTodayList(
+    todayTvShowList: List<TvShowSimple>,
+    isPortraitMode: Boolean = true,
+    onMediaClick: (Long) -> Unit
+) {
     if (todayTvShowList.isEmpty()) {
         Box(
             contentAlignment = Alignment.Center,
@@ -33,20 +41,39 @@ fun TvShowTodayList(todayTvShowList: List<TvShowSimple>) {
             NoRegisters()
         }
     } else {
-        LazyColumn(
-            verticalArrangement = Arrangement.spacedBy(16.dp),
-            contentPadding = PaddingValues(8.dp),
-            modifier = Modifier.fillMaxSize()
-        ) {
-            items(todayTvShowList) { tvShow ->
-                TvShowListItem(tvShow)
+        if (isPortraitMode) {
+            LazyColumn(
+                verticalArrangement = Arrangement.spacedBy(16.dp),
+                contentPadding = PaddingValues(8.dp),
+                modifier = Modifier.fillMaxSize()
+            ) {
+                items(todayTvShowList) { tvShow ->
+                    TvShowListItemPortraitMode(tvShow)
+                }
             }
+        } else {
+            val listState = rememberLazyGridState()
+            LazyVerticalGrid(
+                state = listState,
+                columns = GridCells.Fixed(5),
+                verticalArrangement = Arrangement.spacedBy(8.dp),
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                items(todayTvShowList) { tvShow ->
+                    TvShowListItemLandscapeMode(
+                        tvShow = tvShow,
+                        onMediaClick = { onMediaClick(it) }
+                    )
+                }
+            }
+
         }
+
     }
 }
 
 @Composable
-fun TvShowListItem(tvShow: TvShowSimple) {
+fun TvShowListItemPortraitMode(tvShow: TvShowSimple) {
     Card(
         elevation = 5.dp,
         shape = RoundedCornerShape(12.dp),
@@ -113,6 +140,57 @@ fun TvShowListItem(tvShow: TvShowSimple) {
                     color = Color.White
                 )
             }
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterialApi::class)
+@Composable
+fun TvShowListItemLandscapeMode(tvShow: TvShowSimple, onMediaClick: (Long) -> Unit) {
+    Card(
+        backgroundColor = Color(Random.nextInt(256), Random.nextInt(256), Random.nextInt(256)),
+        modifier = Modifier
+            .size(130.dp, 210.dp)
+            .padding(8.dp),
+        elevation = 8.dp,
+        onClick = { onMediaClick(tvShow.id ?: -1) }
+    ) {
+        Column() {
+            Box() {
+                AsyncImage(
+                    modifier = Modifier.fillMaxHeight(),
+                    model = ImageRequest.Builder(LocalContext.current)
+                        .data(tvShow.posterUrl)
+                        .crossfade(true)
+                        .build(),
+                    placeholder = painterResource(R.drawable.ic_no_image),
+                    contentDescription = null,
+                    contentScale = ContentScale.FillBounds
+                )
+                Surface(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .align(Alignment.BottomCenter),
+                    color = Color.Black.copy(alpha = 0.7f)
+                ) {
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center
+                    ) {
+                        Text(
+                            text = tvShow.name ?: "No disponible",
+                            fontSize = 12.sp,
+                            style = MaterialTheme.typography.h6,
+                            color = Color.White,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(start = 0.dp, end = 0.dp, top = 8.dp, bottom = 8.dp),
+                            textAlign = TextAlign.Center
+                        )
+                    }
+                }
+            }
+
         }
     }
 }

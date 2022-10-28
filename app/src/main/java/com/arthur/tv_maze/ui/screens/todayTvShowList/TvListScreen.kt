@@ -1,5 +1,6 @@
 package com.arthur.tv_maze.ui.screens.todayTvShowList
 
+import android.content.res.Configuration
 import android.util.Log
 import androidx.compose.animation.*
 import androidx.compose.foundation.*
@@ -8,6 +9,7 @@ import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.arthur.tv_maze.ui.screens.components.ProgressBar
 import com.arthur.tv_maze.ui.screens.components.SearchBar
@@ -24,9 +26,7 @@ fun TvListScreen(
     viewModel: TvListViewModel = hiltViewModel()
 ) {
     val scaffoldState = rememberScaffoldState()
-
     val uiState by viewModel.uiState.collectAsState()
-
     var hideKeyboard by remember { mutableStateOf(false) }
 
     Scaffold(
@@ -52,7 +52,6 @@ fun TvListScreen(
             }
         }
     ) { paddingValues ->
-
         Box {
             Column(
                 modifier = Modifier
@@ -61,7 +60,13 @@ fun TvListScreen(
                     .background(Color.Black.copy(alpha = 0.75f)),
                 verticalArrangement = Arrangement.Top
             ) {
-                TvShowTodayList(uiState.todayTvShowList)
+                TvShowTodayList(
+                    todayTvShowList = uiState.todayTvShowList,
+                    isPortraitMode = LocalConfiguration.current.orientation == Configuration.ORIENTATION_PORTRAIT,
+                    onMediaClick = {
+                        Log.i("testSearch", "onMediaClick id --> $it")
+                    }
+                )
             }
         }
         ProgressBar(state = uiState.loading)
