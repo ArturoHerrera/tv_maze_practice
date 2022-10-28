@@ -29,7 +29,7 @@ class TvListViewModel @Inject constructor(
         getTvShowList()
     }
 
-    fun getTvShowList() {
+    private fun getTvShowList() {
         vmUiState.update { it.copy(loading = true) }
         viewModelScope.launch {
             tvMazeTasks.getTvMazeShowList().collect { todayTvShow ->

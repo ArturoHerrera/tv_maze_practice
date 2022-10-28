@@ -1,8 +1,9 @@
 package com.arthur.tv_maze.data.repository.tv_list_repository.repositorys
 
+import android.util.Log
 import com.arthur.tv_maze.data.model.TodayTvShowList
 import com.arthur.tv_maze.data.model.TvShowSimple
-import com.arthur.tv_maze.data.remote.dto.TvListResponseDto
+import com.arthur.tv_maze.data.remote.dto.TvResponseDto
 import com.arthur.tv_maze.utils.ServiceResult
 import com.arthur.tv_maze.utils.getDto
 import com.arthur.tv_maze.utils.getMessage
@@ -17,8 +18,10 @@ class TvListRepository(
     override suspend fun getTvMazeShowList(): Flow<TodayTvShowList> = flow {
         emit(tvListRemoteDS.getTodayTvShowList())
     }.map { result ->
+        Log.i("testResult", "TvListRepository getTvMazeShowList result success: ${result.succeeded}")
         if (result.succeeded) {
-            val mList = result.getDto().TvList.map { mTvResponseDto ->
+            val mList = result.getDto().map { mTvResponseDto ->
+                Log.i("testResult", "TvListRepository getTvMazeShowList result.getDto() name: ${mTvResponseDto?.name}")
                 TvShowSimple.Builder()
                     .setId(mTvResponseDto?.show?.id)
                     .setName(mTvResponseDto?.show?.name)
@@ -32,6 +35,7 @@ class TvListRepository(
             }
             TodayTvShowList(TvShowSimpleList = mList, errorMessage = null)
         } else {
+            Log.i("testResult", "TvListRepository getTvMazeShowList result.getMessage(): ${result.getMessage()}")
             TodayTvShowList(TvShowSimpleList = emptyList(), errorMessage = result.getMessage())
         }
     }
@@ -41,6 +45,6 @@ class TvListRepository(
 
 interface TvListRemoteDataSource {
 
-    suspend fun getTodayTvShowList(): ServiceResult<TvListResponseDto>
+    suspend fun getTodayTvShowList(): ServiceResult<List<TvResponseDto>>
 
 }

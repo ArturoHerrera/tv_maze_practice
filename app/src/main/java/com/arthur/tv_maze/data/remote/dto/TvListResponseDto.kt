@@ -2,10 +2,6 @@ package com.arthur.tv_maze.data.remote.dto
 
 import com.google.gson.annotations.SerializedName
 
-data class TvListResponseDto(
-    @SerializedName("TvList") var TvList: List<TvResponseDto?> = emptyList(),
-)
-
 data class TvResponseDto(
     @SerializedName("id") var id: Int? = null,
     @SerializedName("url") var url: String? = null,
@@ -18,7 +14,7 @@ data class TvResponseDto(
     @SerializedName("airstamp") var airstamp: String? = null,
     @SerializedName("runtime") var runtime: Int? = null,
     @SerializedName("rating") var rating: Rating? = Rating(),
-    @SerializedName("image") var image: String? = null,
+    @SerializedName("image") var image: Image? = null,
     @SerializedName("summary") var summary: String? = null,
     @SerializedName("show") var show: Show? = Show(),
     @SerializedName("_links") var Links: Links? = Links()
@@ -97,10 +93,9 @@ data class Show(
     @SerializedName("rating") var rating: Rating? = Rating(),
     @SerializedName("weight") var weight: Int? = null,
     @SerializedName("network") var network: Network? = Network(),
-    @SerializedName("webChannel") var webChannel: String? = null,
     @SerializedName("dvdCountry") var dvdCountry: String? = null,
     @SerializedName("externals") var externals: Externals? = Externals(),
-    @SerializedName("image") var image: Image? = Image(),
+    @SerializedName("image") var image: Image? = null,
     @SerializedName("summary") var summary: String? = null,
     @SerializedName("updated") var updated: Int? = null,
     @SerializedName("_links") var Links: ShowLinks? = ShowLinks()
