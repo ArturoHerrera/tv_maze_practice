@@ -43,7 +43,7 @@ fun TvListScreen(
                 },
                 onSearchClicked = {},
                 hideKeyboard = hideKeyboard,
-                onFocusClear = {}
+                onFocusClear = { hideKeyboard = false }
             )
             TvShowTodayList(uiState.todayTvShowList)
         }
