@@ -10,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.arthur.tv_maze.ui.theme.MazeGreen
 
 @Composable
 fun ProgressBar(state: Boolean) {
@@ -26,7 +27,7 @@ fun ProgressBar(state: Boolean) {
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(16.dp),
-                    color = Color.Green,
+                    color = MazeGreen,
                     backgroundColor = Color.Black.copy(alpha = 0.5f)
                 )
             }

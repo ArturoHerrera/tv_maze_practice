@@ -48,7 +48,10 @@ fun TvShowTodayList(
                 modifier = Modifier.fillMaxSize()
             ) {
                 items(todayTvShowList) { tvShow ->
-                    TvShowListItemPortraitMode(tvShow)
+                    TvShowListItemPortraitMode(
+                        tvShow = tvShow,
+                        onMediaClick = { onMediaClick(it) }
+                    )
                 }
             }
         } else {
@@ -72,13 +75,15 @@ fun TvShowTodayList(
     }
 }
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun TvShowListItemPortraitMode(tvShow: TvShowSimple) {
+fun TvShowListItemPortraitMode(tvShow: TvShowSimple, onMediaClick: (Long) -> Unit) {
     Card(
         elevation = 5.dp,
         shape = RoundedCornerShape(12.dp),
         modifier = Modifier.fillMaxWidth(),
-        backgroundColor = Color.Black
+        backgroundColor = Color.Black,
+        onClick = { onMediaClick(tvShow.id ?: -1) }
     ) {
         Row(
             modifier = Modifier
