@@ -62,6 +62,7 @@ fun TvListScreen(
             ) {
                 TvShowTodayList(
                     todayTvShowList = uiState.todayTvShowList,
+                    isFindertMode = uiState.activeSearch,
                     isPortraitMode = LocalConfiguration.current.orientation == Configuration.ORIENTATION_PORTRAIT,
                     onMediaClick = {
                         Log.i("testSearch", "onMediaClick id --> $it")

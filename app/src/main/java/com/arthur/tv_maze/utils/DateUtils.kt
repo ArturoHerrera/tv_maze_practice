@@ -22,3 +22,13 @@ object DateUtils {
             SimpleDateFormat(patter).format(Calendar.getInstance().time)
         }
 }
+
+object StringUtils {
+    fun turnStringListToUniqueWord(stringList: List<String>): String {
+        var mUniqueDays = ""
+        stringList.map { word ->
+            mUniqueDays = mUniqueDays + word.substring(0, 3).uppercase() + "  "
+        }
+        return mUniqueDays
+    }
+}
