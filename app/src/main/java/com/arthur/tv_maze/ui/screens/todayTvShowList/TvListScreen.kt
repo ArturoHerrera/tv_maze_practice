@@ -33,33 +33,22 @@ fun TvListScreen(
         scaffoldState = scaffoldState,
         topBar = {
             if (uiState.activeSearch) {
-                AnimatedVisibility(
-                    uiState.activeSearch,
-                    enter = fadeIn() ,
-                    exit = fadeOut()
-                ) {
-                    SearchBar(
-                        hideKeyboard = hideKeyboard,
-                        onFocusClear = { hideKeyboard = false },
-                        onBack = {
-                            viewModel.setActiveSearchState(false)
-                            viewModel.getTvShowList()
-                        },
-                        onWriteQuery = {
-                            Log.i("testSearch", "query --> $it")
-                        }
-                    )
-                }
+                viewModel.clearTvShowList()
+                SearchBar(
+                    hideKeyboard = hideKeyboard,
+                    onFocusClear = { hideKeyboard = false },
+                    onBack = {
+                        viewModel.setActiveSearchState(false)
+                        viewModel.getTvShowList()
+                    },
+                    onWriteQuery = {
+                        Log.i("testSearch", "query --> $it")
+                    }
+                )
             } else {
-                AnimatedVisibility(
-                    !uiState.activeSearch,
-                    enter = fadeIn(),
-                    exit = fadeOut()
-                ) {
-                    TopBarComponent(onSearchClicked = {
-                        viewModel.setActiveSearchState(true)
-                    })
-                }
+                TopBarComponent(onSearchClicked = {
+                    viewModel.setActiveSearchState(true)
+                })
             }
         }
     ) { paddingValues ->
@@ -69,7 +58,7 @@ fun TvListScreen(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(paddingValues)
-                    .background(Color.Black),
+                    .background(Color.Black.copy(alpha = 0.75f)),
                 verticalArrangement = Arrangement.Top
             ) {
                 TvShowTodayList(uiState.todayTvShowList)

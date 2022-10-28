@@ -51,7 +51,7 @@ fun TvShowListItem(tvShow: TvShowSimple) {
         elevation = 5.dp,
         shape = RoundedCornerShape(12.dp),
         modifier = Modifier.fillMaxWidth(),
-        backgroundColor = Color.Gray
+        backgroundColor = Color.Black
     ) {
         Row(
             modifier = Modifier

@@ -47,4 +47,8 @@ class TvListViewModel @Inject constructor(
     fun setActiveSearchState(state: Boolean) {
         vmUiState.update { it.copy(activeSearch = state) }
     }
+
+    fun clearTvShowList() {
+        vmUiState.update { it.copy(todayTvShowList = emptyList()) }
+    }
 }
