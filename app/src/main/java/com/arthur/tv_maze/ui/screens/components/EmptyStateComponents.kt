@@ -1,9 +1,7 @@
 package com.arthur.tv_maze.ui.screens.components
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.requiredSize
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -21,21 +19,27 @@ import com.arthur.tv_maze.R
 fun NoRegisters(
     modifier: Modifier = Modifier
 ) {
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = modifier
+    Box(
+        contentAlignment = Alignment.Center,
+        modifier = Modifier.fillMaxSize()
     ) {
-        Image(
-            imageVector = ImageVector.vectorResource(id = R.drawable.ic_no_register),
-            contentDescription = null,
-            modifier = Modifier.requiredSize(180.dp)
-        )
-        Text(
-            text = stringResource(id = R.string.no_tv_shows_issue),
-            style = MaterialTheme.typography.body1,
-            color = Color.White,
-            fontWeight = FontWeight.SemiBold,
-            modifier = Modifier.padding(vertical = 8.dp)
-        )
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = modifier
+        ) {
+            Image(
+                imageVector = ImageVector.vectorResource(id = R.drawable.ic_no_register),
+                contentDescription = null,
+                modifier = Modifier.requiredSize(180.dp)
+            )
+            Text(
+                text = stringResource(id = R.string.no_tv_shows_issue),
+                style = MaterialTheme.typography.body1,
+                color = Color.White,
+                fontWeight = FontWeight.SemiBold,
+                modifier = Modifier.padding(vertical = 8.dp)
+            )
+        }
     }
+
 }

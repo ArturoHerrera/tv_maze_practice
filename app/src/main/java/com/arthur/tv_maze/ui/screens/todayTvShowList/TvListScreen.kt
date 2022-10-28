@@ -33,16 +33,17 @@ fun TvListScreen(
         scaffoldState = scaffoldState,
         topBar = {
             if (uiState.activeSearch) {
-                viewModel.clearTvShowList()
                 SearchBar(
                     hideKeyboard = hideKeyboard,
                     onFocusClear = { hideKeyboard = false },
                     onBack = {
                         viewModel.setActiveSearchState(false)
+                        viewModel.setQuery("")
                         viewModel.getTvShowList()
                     },
-                    onWriteQuery = {
-                        Log.i("testSearch", "query --> $it")
+                    onWriteQuery = { query ->
+                        viewModel.setQuery(query)
+                        viewModel.filterTvShow(query)
                     }
                 )
             } else {
@@ -62,6 +63,7 @@ fun TvListScreen(
             ) {
                 TvShowTodayList(
                     todayTvShowList = uiState.todayTvShowList,
+                    finderTvShowList = uiState.finderTvShowList,
                     isFindertMode = uiState.activeSearch,
                     isPortraitMode = LocalConfiguration.current.orientation == Configuration.ORIENTATION_PORTRAIT,
                     onMediaClick = {

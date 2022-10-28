@@ -11,7 +11,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.ui.graphics.Color
@@ -33,87 +32,74 @@ import kotlin.random.Random
 @Composable
 fun TvShowTodayList(
     todayTvShowList: List<TvShowSimple>,
+    finderTvShowList: List<TvShowSimple>,
     isPortraitMode: Boolean = true,
     isFindertMode: Boolean = false,
     onMediaClick: (Long) -> Unit
 ) {
-    if (todayTvShowList.isEmpty()) {
-        Box(
-            contentAlignment = Alignment.Center,
-            modifier = Modifier.fillMaxSize()
-        ) {
+    if (isFindertMode) {
+        if (finderTvShowList.isEmpty()) {
             NoRegisters()
+        } else if (isPortraitMode) {
+            LazyColumn(
+                verticalArrangement = Arrangement.spacedBy(16.dp),
+                contentPadding = PaddingValues(8.dp),
+                modifier = Modifier.fillMaxSize()
+            ) {
+                items(finderTvShowList) { tvShow ->
+                    TvShowListItemPortraitMode(
+                        tvShow = tvShow,
+                        onMediaClick = { onMediaClick(it) }
+                    )
+                }
+            }
+        } else {
+            LazyVerticalGrid(
+                state = rememberLazyGridState(),
+                columns = GridCells.Fixed(5),
+                verticalArrangement = Arrangement.spacedBy(8.dp),
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                items(finderTvShowList) { tvShow ->
+                    TvShowListItemLandscapeMode(
+                        tvShow = tvShow,
+                        onMediaClick = { onMediaClick(it) }
+                    )
+                }
+            }
         }
     } else {
-
-        when (isFindertMode) {
-            false -> {
-                if (isPortraitMode) {
-                    LazyColumn(
-                        verticalArrangement = Arrangement.spacedBy(16.dp),
-                        contentPadding = PaddingValues(8.dp),
-                        modifier = Modifier.fillMaxSize()
-                    ) {
-                        items(todayTvShowList) { tvShow ->
-                            TvShowListItemPortraitMode(
-                                tvShow = tvShow,
-                                onMediaClick = { onMediaClick(it) }
-                            )
-                        }
-                    }
-                } else {
-                    val listState = rememberLazyGridState()
-                    LazyVerticalGrid(
-                        state = listState,
-                        columns = GridCells.Fixed(5),
-                        verticalArrangement = Arrangement.spacedBy(8.dp),
-                        horizontalArrangement = Arrangement.spacedBy(8.dp)
-                    ) {
-                        items(todayTvShowList) { tvShow ->
-                            TvShowListItemLandscapeMode(
-                                tvShow = tvShow,
-                                onMediaClick = { onMediaClick(it) }
-                            )
-                        }
-                    }
-
+        if (todayTvShowList.isEmpty()) {
+            NoRegisters()
+        } else if (isPortraitMode) {
+            LazyColumn(
+                verticalArrangement = Arrangement.spacedBy(16.dp),
+                contentPadding = PaddingValues(8.dp),
+                modifier = Modifier.fillMaxSize()
+            ) {
+                items(todayTvShowList) { tvShow ->
+                    TvShowListFinderItemPortraitMode(
+                        tvShow = tvShow,
+                        onMediaClick = { onMediaClick(it) }
+                    )
                 }
             }
-            true -> {
-                if (isPortraitMode) {
-                    LazyColumn(
-                        verticalArrangement = Arrangement.spacedBy(16.dp),
-                        contentPadding = PaddingValues(8.dp),
-                        modifier = Modifier.fillMaxSize()
-                    ) {
-                        items(todayTvShowList) { tvShow ->
-                            TvShowListFinderItemPortraitMode(
-                                tvShow = tvShow,
-                                onMediaClick = { onMediaClick(it) }
-                            )
-                        }
-                    }
-                } else {
-                    val listState = rememberLazyGridState()
-                    LazyVerticalGrid(
-                        state = listState,
-                        columns = GridCells.Fixed(5),
-                        verticalArrangement = Arrangement.spacedBy(8.dp),
-                        horizontalArrangement = Arrangement.spacedBy(8.dp)
-                    ) {
-                        items(todayTvShowList) { tvShow ->
-                            TvShowListFinderItemLandscapeMode(
-                                tvShow = tvShow,
-                                onMediaClick = { onMediaClick(it) }
-                            )
-                        }
-                    }
-
+        } else {
+            LazyVerticalGrid(
+                state = rememberLazyGridState(),
+                columns = GridCells.Fixed(5),
+                verticalArrangement = Arrangement.spacedBy(8.dp),
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                items(todayTvShowList) { tvShow ->
+                    TvShowListFinderItemLandscapeMode(
+                        tvShow = tvShow,
+                        onMediaClick = { onMediaClick(it) }
+                    )
                 }
             }
+
         }
-
-
     }
 }
 
