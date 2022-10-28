@@ -54,6 +54,10 @@ class TvListViewModel @Inject constructor(
         vmUiState.update { it.copy(finderTvShowList = emptyList()) }
     }
 
+    fun clearErrorMsg() {
+        vmUiState.update { it.copy(errorMessage = null) }
+    }
+
     fun setQuery(query: String) {
         vmUiState.update { it.copy(query = query) }
     }

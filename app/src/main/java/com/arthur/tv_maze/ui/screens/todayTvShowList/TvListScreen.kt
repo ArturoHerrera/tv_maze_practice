@@ -12,10 +12,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.arthur.tv_maze.ui.screens.components.ProgressBar
-import com.arthur.tv_maze.ui.screens.components.SearchBar
-import com.arthur.tv_maze.ui.screens.components.TopBarComponent
-import com.arthur.tv_maze.ui.screens.components.TvShowTodayList
+import com.arthur.tv_maze.ui.screens.components.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @ExperimentalAnimationApi
@@ -77,5 +74,11 @@ fun TvListScreen(
             }
         }
         ProgressBar(state = uiState.loading)
+        uiState.errorMessage?.let{ safeErrorMsg ->
+            ErrorAlert(
+                errorMsg = safeErrorMsg,
+                onDismiss = { viewModel.clearErrorMsg() }
+            )
+        }
     }
 }
