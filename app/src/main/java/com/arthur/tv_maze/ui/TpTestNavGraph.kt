@@ -8,7 +8,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.arthur.tv_maze.ui.screens.login.LoginScreen
+import com.arthur.tv_maze.ui.screens.todayTvShowList.TvListScreen
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 object Destinations {
@@ -32,7 +32,7 @@ fun TvMazeNavGraph(
         startDestination = startDestination
     ) {
         composable(Destinations.SPLASH_SCREEN) {
-            LoginScreen(
+            TvListScreen(
                 navigateToView = actions.navigateToHome,
             )
         }

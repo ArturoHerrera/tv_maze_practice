@@ -26,13 +26,13 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            buildConfigField "String", 'base_api_url', '"https://www.url.main.com/"'
+            buildConfigField "String", 'base_api_url', '"https://www.url.release.com/"'
         }
         debug {
             minifyEnabled false
             debuggable true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            buildConfigField "String", 'base_api_url', '"https://www.url.main.com/"'
+            buildConfigField "String", 'base_api_url', '"https://api.tvmaze.com/"'
         }
     }
     compileOptions {

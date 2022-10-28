@@ -1,4 +1,4 @@
-package com.arthur.tv_maze.ui.screens.login
+package com.arthur.tv_maze.ui.screens.todayTvShowList
 
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.*
@@ -16,9 +16,9 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 @ExperimentalMaterialApi
 @ExperimentalCoroutinesApi
 @Composable
-fun LoginScreen(
+fun TvListScreen(
     navigateToView: () -> Unit,
-    viewModel: LoginViewModel = hiltViewModel()
+    viewModel: TvListViewModel = hiltViewModel()
 ) {
     val scaffoldState = rememberScaffoldState()
 
@@ -26,9 +26,11 @@ fun LoginScreen(
 
     Scaffold(
         scaffoldState = scaffoldState
-    ) {
+    ) { paddingValues ->
         Column(
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues)
         ) {
             Surface() {
                 if (uiState.loading) {
