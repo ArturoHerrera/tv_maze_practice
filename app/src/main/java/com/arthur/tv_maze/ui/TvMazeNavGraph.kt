@@ -9,12 +9,12 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.arthur.tv_maze.ui.screens.todayTvShowList.TvListScreen
+import com.arthur.tv_maze.ui.screens.tvShowDetail.TvShowDetailScreen
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 object Destinations {
-    const val LOGIN_SCREEN = "login"
-    const val SPLASH_SCREEN = "splash"
-    const val HOME_SCREEN = "home"
+    const val HOME_SCREEN = "tvShowList"
+    const val DETAIL_SCREEN = "tvShowDetail"
 }
 
 @ExperimentalAnimationApi
@@ -23,7 +23,7 @@ object Destinations {
 @Composable
 fun TvMazeNavGraph(
     navController: NavHostController = rememberNavController(),
-    startDestination: String = Destinations.SPLASH_SCREEN
+    startDestination: String = Destinations.HOME_SCREEN
 ) {
     val actions = remember(navController) { MainActions(navController) }
 
@@ -31,17 +31,22 @@ fun TvMazeNavGraph(
         navController = navController,
         startDestination = startDestination
     ) {
-        composable(Destinations.SPLASH_SCREEN) {
+        composable(Destinations.HOME_SCREEN) {
             TvListScreen(
-                navigateToView = actions.navigateToHome,
+                navigateToTvDetail = actions.navigateToTvDetail,
+            )
+        }
+        composable(Destinations.DETAIL_SCREEN){
+            TvShowDetailScreen(
+                navigateToView = actions.upPress
             )
         }
     }
 }
 
 class MainActions(navController: NavHostController) {
-    val navigateToHome: () -> Unit = {
-        navController.navigate(Destinations.HOME_SCREEN)
+    val navigateToTvDetail: () -> Unit = {
+        navController.navigate(Destinations.DETAIL_SCREEN)
     }
     val upPress: () -> Unit = {
         navController.navigateUp()
