@@ -50,16 +50,12 @@ class TvListViewModel @Inject constructor(
         vmUiState.update { it.copy(activeSearch = state) }
     }
 
-    fun clearTvShowList() {
-        vmUiState.update { it.copy(finderTvShowList = emptyList()) }
-    }
-
     fun clearErrorMsg() {
         vmUiState.update { it.copy(errorMessage = null) }
     }
 
-    fun setQuery(query: String) {
-        vmUiState.update { it.copy(query = query) }
+    fun clearQuery() {
+        vmUiState.update { it.copy(query = "") }
     }
 
     fun filterTvShow(query: String) {

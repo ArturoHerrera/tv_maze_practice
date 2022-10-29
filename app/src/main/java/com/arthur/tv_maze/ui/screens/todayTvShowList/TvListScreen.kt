@@ -38,13 +38,10 @@ fun TvListScreen(
                     onFocusClear = { hideKeyboard = false },
                     onBack = {
                         viewModel.setActiveSearchState(false)
-                        viewModel.setQuery("")
+                        viewModel.clearQuery()
                         viewModel.getTvShowList()
                     },
-                    onWriteQuery = { query ->
-                        viewModel.setQuery(query)
-                        viewModel.filterTvShow(query)
-                    }
+                    onWriteQuery = { query -> viewModel.filterTvShow(query) }
                 )
             } else {
                 TopBarComponent(onSearchClicked = {
@@ -74,7 +71,7 @@ fun TvListScreen(
             }
         }
         ProgressBar(state = uiState.loading)
-        uiState.errorMessage?.let{ safeErrorMsg ->
+        uiState.errorMessage?.let { safeErrorMsg ->
             ErrorAlert(
                 errorMsg = safeErrorMsg,
                 onDismiss = { viewModel.clearErrorMsg() }
