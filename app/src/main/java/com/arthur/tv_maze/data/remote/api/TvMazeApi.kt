@@ -18,6 +18,11 @@ interface TvMazeApi {
         @Query("date") date: String = DateUtils.getCurrentDate()
     ): Response<List<TvResponseDto>>
 
+    /*
+    * Si quisieramos respetar de una mejor forma el principio de responsabilidad unica,
+    * lo correcto seria mover los siguientes 2 servicios/endPoints a otra interfaz.
+    */
+
     @GET("/shows/{tvShowId}")
     suspend fun getTvShowDetail(
         @Path("tvShowId") tvShowId: Long = 2831

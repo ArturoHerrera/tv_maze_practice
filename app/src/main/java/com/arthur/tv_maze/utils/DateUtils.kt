@@ -8,18 +8,18 @@ import java.util.*
 
 object DateUtils {
 
-    fun getCurrentDate(patter: String = "yyyy-MM-dd"): String =
+    fun getCurrentDate(pattern: String = "yyyy-MM-dd"): String =
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            LocalDateTime.now().format(DateTimeFormatter.ofPattern(patter))
+            LocalDateTime.now().format(DateTimeFormatter.ofPattern(pattern))
         } else {
-            SimpleDateFormat(patter).format(Calendar.getInstance().time)
+            SimpleDateFormat(pattern).format(Calendar.getInstance().time)
         }
 
-    fun getCurrentDateLarge(patter: String = "EEEE dd 'de' MMMM uuuu"): String =
+    fun getCurrentDateLarge(pattern: String = "EEEE dd 'de' MMMM uuuu"): String =
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            LocalDateTime.now().format(DateTimeFormatter.ofPattern(patter, Locale("es", "ES")))
+            LocalDateTime.now().format(DateTimeFormatter.ofPattern(pattern, Locale("es", "ES")))
         } else {
-            SimpleDateFormat(patter).format(Calendar.getInstance().time)
+            SimpleDateFormat(pattern , Locale("es", "ES")).format(Calendar.getInstance().time)
         }
 }
 

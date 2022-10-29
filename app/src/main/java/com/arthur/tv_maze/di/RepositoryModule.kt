@@ -1,6 +1,8 @@
 package com.arthur.tv_maze.di
 
 import com.arthur.tv_maze.data.remote.api.TvMazeApi
+import com.arthur.tv_maze.data.repository.tv_detail_repository.remote_data_source.TvShowDetailRetrofitRemoteDataSource
+import com.arthur.tv_maze.data.repository.tv_detail_repository.repositorys.TvDetailRepository
 import com.arthur.tv_maze.data.repository.tv_list_repository.remote_data_source.TvListRetrofitRemoteDataSource
 import com.arthur.tv_maze.data.repository.tv_list_repository.repositorys.TvListRepository
 import dagger.Module
@@ -19,6 +21,16 @@ object RepositoryModule {
         tvMazeApi: TvMazeApi
     ): TvListRepository = TvListRepository(
         tvListRemoteDS = TvListRetrofitRemoteDataSource(
+            tvMazeApi = tvMazeApi
+        )
+    )
+
+    @ViewModelScoped
+    @Provides
+    fun providesTvDetailRepository(
+        tvMazeApi: TvMazeApi
+    ): TvDetailRepository = TvDetailRepository(
+        tvDetailRemoteDS = TvShowDetailRetrofitRemoteDataSource(
             tvMazeApi = tvMazeApi
         )
     )
