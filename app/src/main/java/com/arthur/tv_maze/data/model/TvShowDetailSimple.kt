@@ -48,8 +48,8 @@ class TvShowDetailSimple private constructor(
         fun setGenres(genresList: List<String>) =
             apply { this.genres = StringUtils.turnStringListToUniqueWord(genresList) }
 
-        fun setScheduleTimeDays(time: String?, days: String?) =
-            apply { this.name = "${time?.ifBlank { "--" } ?: "--"}  |  ${days?.ifBlank { "--" } ?: "--"}" }
+        fun setScheduleTimeDays(time: String?, days: List<String>) =
+            apply { this.scheduleTimeDays = "${time?.ifBlank { "--" } ?: "--"}  |  ${StringUtils.turnStringListToUniqueWord(days)}" }
 
         fun build() = TvShowDetailSimple(
             name = name,
@@ -64,3 +64,8 @@ class TvShowDetailSimple private constructor(
         )
     }
 }
+
+data class TvShowDetail (
+    val errorMessage: String? = null,
+    val tvShowDetail: TvShowDetailSimple? = null
+)

@@ -34,13 +34,10 @@ class TvListRepository(
         } else {
             TodayTvShowList(TvShowSimpleList = emptyList(), errorMessage = result.getMessage())
         }
-    }
-        .catch { e -> e.printStackTrace() }
+    }.catch { e -> e.printStackTrace() }
         .flowOn(Dispatchers.IO)
 }
 
 interface TvListRemoteDataSource {
-
     suspend fun getTodayTvShowList(): ServiceResult<List<TvResponseDto>>
-
 }

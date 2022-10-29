@@ -9,6 +9,7 @@ import com.arthur.tv_maze.utils.networkCall
 class TvShowDetailRetrofitRemoteDataSource(
     private val tvMazeApi: TvMazeApi
 ) : TvDetailRemoteDataSource {
+    
     override suspend fun getTvShowDetail(): ServiceResult<TvShowDetailResponseDto> =
         networkCall {
             tvMazeApi.getTvShowDetail().body()!!
