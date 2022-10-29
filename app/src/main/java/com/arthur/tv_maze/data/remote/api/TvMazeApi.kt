@@ -1,5 +1,6 @@
 package com.arthur.tv_maze.data.remote.api
 
+import com.arthur.tv_maze.data.remote.dto.ActorResponseDto
 import com.arthur.tv_maze.data.remote.dto.TvResponseDto
 import com.arthur.tv_maze.data.remote.dto.TvShowDetailResponseDto
 import com.arthur.tv_maze.utils.DateUtils
@@ -21,5 +22,10 @@ interface TvMazeApi {
     suspend fun getTvShowDetail(
         @Path("tvShowId") tvShowId: Long = 2831
     ): Response<TvShowDetailResponseDto>
+
+    @GET("/shows/{tvShowId}/cast")
+    suspend fun getTvShowCast(
+        @Path("tvShowId") tvShowId: Long = 2831
+    ): Response<List<ActorResponseDto>>
 
 }
