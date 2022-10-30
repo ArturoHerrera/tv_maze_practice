@@ -1,5 +1,6 @@
 package com.arthur.tv_maze.data.repository.tv_detail_repository.repositorys
 
+import android.util.Log
 import com.arthur.tv_maze.data.model.TvShowActor
 import com.arthur.tv_maze.data.model.TvShowActorSimple
 import com.arthur.tv_maze.data.model.TvShowDetail
@@ -10,6 +11,7 @@ import com.arthur.tv_maze.utils.ServiceResult
 import com.arthur.tv_maze.utils.getDto
 import com.arthur.tv_maze.utils.getMessage
 import com.arthur.tv_maze.utils.succeeded
+import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 
@@ -54,14 +56,15 @@ class TvDetailRepository(
     }.map { result ->
         if (result.succeeded) {
             val mTvShowActorSimple = result.getDto().map { mActorResponseDto ->
+                val actorPhotoUrl = mActorResponseDto.character?.image?.medium ?: mActorResponseDto.person?.image?.medium
                 TvShowActorSimple.Builder()
                     .setActorName(mActorResponseDto.person?.name)
-                    .setActorPhotoUrl(mActorResponseDto.character?.image?.medium)
+                    .setActorPhotoUrl(actorPhotoUrl)
                     .build()
             }
             TvShowActor(
                 errorMessage = null,
-                tvShowActorList = mTvShowActorSimple
+                tvShowActorList = mTvShowActorSimple.shuffled()
             )
         } else {
             TvShowActor(

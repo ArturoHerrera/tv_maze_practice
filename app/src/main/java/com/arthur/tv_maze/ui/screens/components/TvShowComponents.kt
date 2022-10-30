@@ -154,30 +154,27 @@ fun TvShowListItemPortraitMode(tvShow: TvShowSimple, onMediaClick: (Long) -> Uni
                     fontSize = 22.sp,
                     color = Color.White
                 )
+                if (tvShow.networkName != "--") {
+                    Text(
+                        modifier = Modifier.fillMaxWidth(),
+                        text = tvShow.networkName ?: "No disponible",
+                        style = MaterialTheme.typography.body1,
+                        fontWeight = FontWeight.Light,
+                        lineHeight = 18.sp,
+                        fontSize = 18.sp,
+                        color = Color.White
+                    )
+                }
                 Text(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(bottom = 8.dp),
-                    text = tvShow.networkName ?: "No disponible",
-                    style = MaterialTheme.typography.body1,
-                    fontWeight = FontWeight.Light,
-                    lineHeight = 18.sp,
-                    fontSize = 18.sp,
-                    color = Color.White
-                )
-                Text(
-                    modifier = Modifier.fillMaxWidth(),
+                        .padding(top = 8.dp),
                     text = "${tvShow.airDate}  |  ${tvShow.airTime}",
                     style = MaterialTheme.typography.body1,
                     fontWeight = FontWeight.Light,
                     lineHeight = 18.sp,
                     fontSize = 18.sp,
                     color = Color.White
-                )
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .background(Color.Red)
                 )
             }
         }

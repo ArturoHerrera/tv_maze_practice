@@ -63,6 +63,7 @@ fun DetailPortraitHeader(
                         brush = Brush.verticalGradient(
                             colors = listOf(
                                 Color.Transparent,
+                                Color.Transparent,
                                 Color.Black,
                             )
                         )
@@ -90,18 +91,21 @@ fun DetailPortraitHeader(
                         textAlign = TextAlign.Center,
                         color = Color.White
                     )
-                    Text(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(start = 8.dp, end = 8.dp),
-                        text = tvShowDetail.networkName ?: "--",
-                        style = MaterialTheme.typography.body1,
-                        fontWeight = FontWeight.Light,
-                        lineHeight = 18.sp,
-                        fontSize = 18.sp,
-                        textAlign = TextAlign.Center,
-                        color = Color.White
-                    )
+                    if(tvShowDetail.networkName != "--"){
+                        Text(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 8.dp),
+                            text = tvShowDetail.networkName,
+                            style = MaterialTheme.typography.body1,
+                            fontWeight = FontWeight.Light,
+                            lineHeight = 18.sp,
+                            fontSize = 18.sp,
+                            textAlign = TextAlign.Center,
+                            color = Color.White
+                        )
+                    }
+
                     RatingBar(
                         modifier = Modifier.padding(top = 8.dp, bottom = 16.dp),
                         value = (rating),
@@ -152,7 +156,7 @@ fun DetailPortraitBody(
             text = tvShowDetail.summary.trim().ifBlank { "--" },
             style = MaterialTheme.typography.body1,
             fontWeight = FontWeight.Light,
-            lineHeight = 18.sp,
+            lineHeight = 22.sp,
             fontSize = 16.sp,
             textAlign = TextAlign.Start,
             color = Color.White
