@@ -1,18 +1,19 @@
 package com.arthur.tv_maze.ui.screens.components
 
-import android.util.Log
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import com.arthur.tv_maze.R
 import androidx.compose.ui.layout.ContentScale
@@ -47,7 +48,7 @@ fun TvShowTodayList(
                 modifier = Modifier.fillMaxSize()
             ) {
                 items(finderTvShowList) { tvShow ->
-                    TvShowListItemPortraitMode(
+                    TvShowListFinderItemPortraitMode(
                         tvShow = tvShow,
                         onMediaClick = { onMediaClick(it) }
                     )
@@ -61,7 +62,7 @@ fun TvShowTodayList(
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 items(finderTvShowList) { tvShow ->
-                    TvShowListItemLandscapeMode(
+                    TvShowListFinderItemLandscapeMode(
                         tvShow = tvShow,
                         onMediaClick = { onMediaClick(it) }
                     )
@@ -78,7 +79,7 @@ fun TvShowTodayList(
                 modifier = Modifier.fillMaxSize()
             ) {
                 items(todayTvShowList) { tvShow ->
-                    TvShowListFinderItemPortraitMode(
+                    TvShowListItemPortraitMode(
                         tvShow = tvShow,
                         onMediaClick = { onMediaClick(it) }
                     )
@@ -92,7 +93,7 @@ fun TvShowTodayList(
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 items(todayTvShowList) { tvShow ->
-                    TvShowListFinderItemLandscapeMode(
+                    TvShowListItemLandscapeMode(
                         tvShow = tvShow,
                         onMediaClick = { onMediaClick(it) }
                     )
@@ -106,6 +107,7 @@ fun TvShowTodayList(
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun TvShowListItemPortraitMode(tvShow: TvShowSimple, onMediaClick: (Long) -> Unit) {
+
     Card(
         elevation = 5.dp,
         shape = RoundedCornerShape(12.dp),
@@ -123,16 +125,31 @@ fun TvShowListItemPortraitMode(tvShow: TvShowSimple, onMediaClick: (Long) -> Uni
                     .weight(2.0f)
                     .height(150.dp)
             ) {
-                AsyncImage(
-                    modifier = Modifier.fillMaxHeight(),
-                    model = ImageRequest.Builder(LocalContext.current)
-                        .data(tvShow.posterUrl)
-                        .crossfade(true)
-                        .build(),
-                    placeholder = painterResource(R.drawable.ic_no_image),
-                    contentDescription = null,
-                    contentScale = ContentScale.FillBounds
-                )
+                Box {
+                    AsyncImage(
+                        modifier = Modifier.fillMaxHeight(),
+                        model = ImageRequest.Builder(LocalContext.current)
+                            .data(tvShow.posterUrl)
+                            .crossfade(true)
+                            .build(),
+                        placeholder = painterResource(R.drawable.ic_no_image),
+                        contentDescription = null,
+                        contentScale = ContentScale.FillBounds
+                    )
+                    Box(
+                        modifier = Modifier
+                            .matchParentSize()
+                            .background(
+                                brush = Brush.horizontalGradient(
+                                    colors = listOf(
+                                        Color.Transparent,
+                                        Color.Transparent,
+                                        Color.Black,
+                                    )
+                                )
+                            )
+                    )
+                }
             }
             Column(
                 modifier = Modifier
@@ -171,6 +188,11 @@ fun TvShowListItemPortraitMode(tvShow: TvShowSimple, onMediaClick: (Long) -> Uni
                     lineHeight = 18.sp,
                     fontSize = 18.sp,
                     color = Color.White
+                )
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(Color.Red)
                 )
             }
         }
@@ -301,7 +323,7 @@ fun TvShowListFinderItemPortraitMode(tvShow: TvShowSimple, onMediaClick: (Long) 
                         color = Color.White
                     )
                     Text(
-                        text = StringUtils.turnStringListToUniqueWord(tvShow.days ?: emptyList()),
+                        text = StringUtils.returnWordOfArrayString(tvShow.days ?: emptyList(), 3),
                         style = MaterialTheme.typography.body1,
                         fontWeight = FontWeight.ExtraBold,
                         lineHeight = 18.sp,

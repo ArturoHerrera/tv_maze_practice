@@ -85,6 +85,12 @@ dependencies {
     //Interceptor
     implementation "com.localebro:okhttpprofiler:$okhttp_profiler_version"
 
+    //Rating compose component
+    implementation "com.github.a914-gowtham:compose-ratingbar:$ratingbar_version"
+
+    //Compote text html
+    implementation "de.charlex.compose:html-text:$compose_html_text_version"
+
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'

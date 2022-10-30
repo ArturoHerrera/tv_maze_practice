@@ -7,7 +7,7 @@ class TvShowDetailSimple private constructor(
     val networkName: String = "",
     val coverMiniUrl: String = "",
     val coverBigUrl: String = "",
-    val rating: String = "",
+    val rating: Float = -1.0f,
     val officialSiteUrl: String = "",
     val summary: String = "",
     val genres: String = "",
@@ -18,7 +18,7 @@ class TvShowDetailSimple private constructor(
         var networkName: String = "",
         var coverMiniUrl: String = "",
         var coverBigUrl: String = "",
-        var rating: String = "",
+        var rating: Float = -1.0f,
         var officialSiteUrl: String = "",
         var summary: String = "",
         var genres: String = "",
@@ -37,7 +37,7 @@ class TvShowDetailSimple private constructor(
             apply { this.coverBigUrl = coverBigUrl ?: "" }
 
         fun setRaing(rating: Double?) =
-            apply { this.rating = rating?.toString() ?: "" }
+            apply { this.rating = rating?.toFloat() ?: -1.0f }
 
         fun setOfficialSiteUrl(officialSiteUrl: String?) =
             apply { this.officialSiteUrl = officialSiteUrl ?: "" }
@@ -46,10 +46,10 @@ class TvShowDetailSimple private constructor(
             apply { this.summary = summary ?: "--" }
 
         fun setGenres(genresList: List<String>) =
-            apply { this.genres = StringUtils.turnStringListToUniqueWord(genresList) }
+            apply { this.genres = StringUtils.returnWordOfArrayString(genresList) }
 
         fun setScheduleTimeDays(time: String?, days: List<String>) =
-            apply { this.scheduleTimeDays = "${time?.ifBlank { "--" } ?: "--"}  |  ${StringUtils.turnStringListToUniqueWord(days)}" }
+            apply { this.scheduleTimeDays = "${time?.ifBlank { "--" } ?: "--"}  |  ${StringUtils.returnWordOfArrayString(days, 3)}" }
 
         fun build() = TvShowDetailSimple(
             name = name,

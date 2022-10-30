@@ -24,10 +24,14 @@ object DateUtils {
 }
 
 object StringUtils {
-    fun turnStringListToUniqueWord(stringList: List<String>): String {
+    fun returnWordOfArrayString(stringList: List<String>, subStringRangeLimit: Int? = null): String {
         var mUniqueDays = ""
         stringList.map { word ->
-            mUniqueDays = mUniqueDays + word.substring(0, 3).uppercase() + "  "
+            subStringRangeLimit?.let{
+                mUniqueDays = mUniqueDays + word.substring(0, 3).uppercase() + "  "
+            } ?: run {
+                mUniqueDays = mUniqueDays + word.uppercase() + "  "
+            }
         }
         return mUniqueDays
     }

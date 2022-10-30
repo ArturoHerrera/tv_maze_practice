@@ -55,7 +55,7 @@ fun TvListScreen(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(paddingValues)
-                    .background(Color.Black.copy(alpha = 0.75f)),
+                    .background(Color.Black.copy(alpha = 0.90f)),
                 verticalArrangement = Arrangement.Top
             ) {
                 TvShowTodayList(
