@@ -32,7 +32,7 @@ import de.charlex.compose.HtmlText
 fun DetailPortraitHeader(
     tvShowDetail: TvShowDetailSimple
 ) {
-    var rating: Float by remember { mutableStateOf(tvShowDetail.rating) }
+    var rating: Float by remember { mutableStateOf((tvShowDetail.rating / 2)) }
 
     Column(
         modifier = Modifier.background(Color.Black),
@@ -89,25 +89,20 @@ fun DetailPortraitHeader(
         )
         RatingBar(
             modifier = Modifier.padding(8.dp),
-            value = rating,
+            value = (rating),
             config = RatingBarConfig()
                 .activeColor(MazeGreen)
-                .hideInactiveStars(true)
-                .inactiveColor(Color.LightGray)
-                .inactiveBorderColor(Color.DarkGray)
+                .inactiveColor(Color.White)
+                .inactiveBorderColor(Color.White)
+                .hideInactiveStars(false)
                 .stepSize(StepSize.HALF)
-                .numStars(10)
-                .isIndicator(true)
-                .size(18.dp)
-                .padding(6.dp)
-                .style(RatingBarStyle.HighLighted)
+                .numStars(5)
+                .isIndicator(false)
+                .size(32.dp)
+                .padding(8.dp)
                 .style(RatingBarStyle.HighLighted),
-            onValueChange = {
-                rating = it
-            },
-            onRatingChanged = {
-                Log.d("TAG", "onRatingChanged: $it")
-            }
+            onValueChange = {},
+            onRatingChanged = {}
         )
     }
 }
@@ -134,12 +129,11 @@ fun DetailPortraitBody(
         )
         HtmlText(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 8.dp),
-            text = tvShowDetail.summary.ifBlank { "--" },
+                .fillMaxWidth().background(Color.Red),
+            text = tvShowDetail.summary.trim().ifBlank { "--" },
             style = MaterialTheme.typography.body1,
             fontWeight = FontWeight.Light,
-            lineHeight = 18.sp,
+            lineHeight = 20.sp,
             fontSize = 18.sp,
             textAlign = TextAlign.Start,
             color = Color.White

@@ -46,7 +46,7 @@ class TvShowDetailSimple private constructor(
             apply { this.summary = summary ?: "--" }
 
         fun setGenres(genresList: List<String>) =
-            apply { this.genres = StringUtils.returnWordOfArrayString(genresList) }
+            apply { this.genres = StringUtils.returnWordOfArrayString(genresList, spacer = ",  ") }
 
         fun setScheduleTimeDays(time: String?, days: List<String>) =
             apply { this.scheduleTimeDays = "${time?.ifBlank { "--" } ?: "--"}  |  ${StringUtils.returnWordOfArrayString(days, 3)}" }

@@ -24,13 +24,13 @@ object DateUtils {
 }
 
 object StringUtils {
-    fun returnWordOfArrayString(stringList: List<String>, subStringRangeLimit: Int? = null): String {
+    fun returnWordOfArrayString(stringList: List<String>, subStringRangeLimit: Int? = null, spacer: String = "  "): String {
         var mUniqueDays = ""
         stringList.map { word ->
             subStringRangeLimit?.let{
-                mUniqueDays = mUniqueDays + word.substring(0, 3).uppercase() + "  "
+                mUniqueDays = mUniqueDays + word.substring(0, 3).uppercase() + spacer
             } ?: run {
-                mUniqueDays = mUniqueDays + word.uppercase() + "  "
+                mUniqueDays = mUniqueDays + word.uppercase() + spacer
             }
         }
         return mUniqueDays
