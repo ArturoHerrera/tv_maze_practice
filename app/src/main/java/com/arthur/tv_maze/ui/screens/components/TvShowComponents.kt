@@ -125,31 +125,16 @@ fun TvShowListItemPortraitMode(tvShow: TvShowSimple, onMediaClick: (Long) -> Uni
                     .weight(2.0f)
                     .height(150.dp)
             ) {
-                Box {
-                    AsyncImage(
-                        modifier = Modifier.fillMaxHeight(),
-                        model = ImageRequest.Builder(LocalContext.current)
-                            .data(tvShow.posterUrl)
-                            .crossfade(true)
-                            .build(),
-                        placeholder = painterResource(R.drawable.ic_no_image),
-                        contentDescription = null,
-                        contentScale = ContentScale.FillBounds
-                    )
-                    Box(
-                        modifier = Modifier
-                            .matchParentSize()
-                            .background(
-                                brush = Brush.horizontalGradient(
-                                    colors = listOf(
-                                        Color.Transparent,
-                                        Color.Transparent,
-                                        Color.Black,
-                                    )
-                                )
-                            )
-                    )
-                }
+                AsyncImage(
+                    modifier = Modifier.fillMaxHeight(),
+                    model = ImageRequest.Builder(LocalContext.current)
+                        .data(tvShow.posterUrl)
+                        .crossfade(true)
+                        .build(),
+                    placeholder = painterResource(R.drawable.ic_no_image),
+                    contentDescription = null,
+                    contentScale = ContentScale.FillBounds
+                )
             }
             Column(
                 modifier = Modifier

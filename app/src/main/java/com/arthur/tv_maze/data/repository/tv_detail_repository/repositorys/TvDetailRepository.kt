@@ -1,7 +1,10 @@
 package com.arthur.tv_maze.data.repository.tv_detail_repository.repositorys
 
+import com.arthur.tv_maze.data.model.TvShowActor
+import com.arthur.tv_maze.data.model.TvShowActorSimple
 import com.arthur.tv_maze.data.model.TvShowDetail
 import com.arthur.tv_maze.data.model.TvShowDetailSimple
+import com.arthur.tv_maze.data.remote.dto.ActorResponseDto
 import com.arthur.tv_maze.data.remote.dto.TvShowDetailResponseDto
 import com.arthur.tv_maze.utils.ServiceResult
 import com.arthur.tv_maze.utils.getDto
@@ -24,7 +27,7 @@ class TvDetailRepository(
                 .setNetworkName(mTvShowDetailDto.network?.name)
                 .setCoverMiniUrl(mTvShowDetailDto.image?.medium)
                 .setCoverBigUrl(mTvShowDetailDto.image?.original)
-                .setRaing(mTvShowDetailDto.rating?.average)
+                .setRating(mTvShowDetailDto.rating?.average)
                 .setOfficialSiteUrl(mTvShowDetailDto.url)
                 .setSummary(mTvShowDetailDto.summary)
                 .setGenres(mTvShowDetailDto.genres)
@@ -45,8 +48,32 @@ class TvDetailRepository(
         }
     }.catch { e -> e.printStackTrace() }
         .flowOn(Dispatchers.IO)
+
+    override suspend fun getTvShowActorList(): Flow<TvShowActor> = flow {
+        emit(tvDetailRemoteDS.getTvShowCast())
+    }.map { result ->
+        if (result.succeeded) {
+            val mTvShowActorSimple = result.getDto().map { mActorResponseDto ->
+                TvShowActorSimple.Builder()
+                    .setActorName(mActorResponseDto.person?.name)
+                    .setActorPhotoUrl(mActorResponseDto.character?.image?.medium)
+                    .build()
+            }
+            TvShowActor(
+                errorMessage = null,
+                tvShowActorList = mTvShowActorSimple
+            )
+        } else {
+            TvShowActor(
+                errorMessage = result.getMessage(),
+                tvShowActorList = emptyList()
+            )
+        }
+    }.catch { e -> e.printStackTrace() }
+        .flowOn(Dispatchers.IO)
 }
 
 interface TvDetailRemoteDataSource {
     suspend fun getTvShowDetail(): ServiceResult<TvShowDetailResponseDto>
+    suspend fun getTvShowCast(): ServiceResult<List<ActorResponseDto>>
 }

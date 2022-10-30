@@ -36,7 +36,7 @@ class TvShowDetailSimple private constructor(
         fun setCoverBigUrl(coverBigUrl: String?) =
             apply { this.coverBigUrl = coverBigUrl ?: "" }
 
-        fun setRaing(rating: Double?) =
+        fun setRating(rating: Double?) =
             apply { this.rating = rating?.toFloat() ?: -1.0f }
 
         fun setOfficialSiteUrl(officialSiteUrl: String?) =

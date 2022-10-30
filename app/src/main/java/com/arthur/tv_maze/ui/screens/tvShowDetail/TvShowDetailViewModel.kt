@@ -28,6 +28,7 @@ class TvShowDetailViewModel @Inject constructor(
 
     init {
         getTvShowList()
+        getTvShowCastList()
     }
 
     fun getTvShowList() {
@@ -45,8 +46,25 @@ class TvShowDetailViewModel @Inject constructor(
         }
     }
 
+    fun getTvShowCastList() {
+        viewModelScope.launch {
+            tvDetailsTasks.getTvShowActorList().collect { tvShowCast ->
+                vmUiState.update {
+                    it.copy(
+                        errorCastMsg = tvShowCast.errorMessage,
+                        tvShowCast = tvShowCast.tvShowActorList
+                    )
+                }
+            }
+        }
+    }
+
     fun clearErrorMsg() {
         vmUiState.update { it.copy(errorMsg = null) }
+    }
+
+    fun clearErrorCastMsg() {
+        vmUiState.update { it.copy(errorCastMsg = null) }
     }
 
 }
