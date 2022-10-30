@@ -17,8 +17,8 @@ class TvDetailRepository(
     private val tvDetailRemoteDS: TvDetailRemoteDataSource
 ) : TvShowDetailTasks {
 
-    override suspend fun getTvShowDetail(): Flow<TvShowDetail> = flow {
-        emit(tvDetailRemoteDS.getTvShowDetail())
+    override suspend fun getTvShowDetail(tvShowId: Long): Flow<TvShowDetail> = flow {
+        emit(tvDetailRemoteDS.getTvShowDetail(tvShowId))
     }.map { result ->
         if (result.succeeded) {
             val mTvShowDetailDto = result.getDto()
@@ -74,6 +74,6 @@ class TvDetailRepository(
 }
 
 interface TvDetailRemoteDataSource {
-    suspend fun getTvShowDetail(): ServiceResult<TvShowDetailResponseDto>
+    suspend fun getTvShowDetail(tvShowId: Long): ServiceResult<TvShowDetailResponseDto>
     suspend fun getTvShowCast(): ServiceResult<List<ActorResponseDto>>
 }

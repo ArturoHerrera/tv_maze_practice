@@ -25,7 +25,7 @@ interface TvMazeApi {
 
     @GET("/shows/{tvShowId}")
     suspend fun getTvShowDetail(
-        @Path("tvShowId") tvShowId: Long = 2831
+        @Path("tvShowId") tvShowId: Long = -1
     ): Response<TvShowDetailResponseDto>
 
     @GET("/shows/{tvShowId}/cast")

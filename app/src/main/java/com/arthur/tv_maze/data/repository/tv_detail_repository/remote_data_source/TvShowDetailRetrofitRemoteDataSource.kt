@@ -11,9 +11,9 @@ class TvShowDetailRetrofitRemoteDataSource(
     private val tvMazeApi: TvMazeApi
 ) : TvDetailRemoteDataSource {
 
-    override suspend fun getTvShowDetail(): ServiceResult<TvShowDetailResponseDto> =
+    override suspend fun getTvShowDetail(tvShowId: Long): ServiceResult<TvShowDetailResponseDto> =
         networkCall {
-            tvMazeApi.getTvShowDetail().body()!!
+            tvMazeApi.getTvShowDetail(tvShowId = tvShowId).body()!!
         }
 
     override suspend fun getTvShowCast(): ServiceResult<List<ActorResponseDto>> =

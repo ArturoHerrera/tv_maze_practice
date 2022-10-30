@@ -45,7 +45,7 @@ fun DetailPortraitHeader(
         modifier = Modifier.background(Color.Black),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Box(Modifier.height(550.dp)) {
+        Box(Modifier.height(600.dp)) {
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
                     .data(tvShowDetail.coverBigUrl)
@@ -54,7 +54,7 @@ fun DetailPortraitHeader(
                 placeholder = painterResource(R.drawable.ic_no_image),
                 contentDescription = null,
                 alignment = Alignment.BottomCenter,
-                contentScale = ContentScale.FillHeight
+                contentScale = ContentScale.FillBounds
             )
             Box(
                 modifier = Modifier
@@ -146,28 +146,31 @@ fun DetailPortraitBody(
             color = Color.White
         )
 
-        Text(
-            modifier = Modifier.fillMaxWidth(),
-            text = "Géneros:",
-            style = MaterialTheme.typography.body1,
-            fontWeight = FontWeight.Bold,
-            lineHeight = 20.sp,
-            fontSize = 20.sp,
-            textAlign = TextAlign.Start,
-            color = Color.White
-        )
-        Text(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 8.dp),
-            text = tvShowDetail.genres.ifBlank { "--" },
-            style = MaterialTheme.typography.body1,
-            fontWeight = FontWeight.Light,
-            lineHeight = 16.sp,
-            fontSize = 16.sp,
-            textAlign = TextAlign.Start,
-            color = Color.White
-        )
+        if(tvShowDetail.genres.isNotBlank()){
+            Text(
+                modifier = Modifier.fillMaxWidth(),
+                text = "Géneros:",
+                style = MaterialTheme.typography.body1,
+                fontWeight = FontWeight.Bold,
+                lineHeight = 20.sp,
+                fontSize = 20.sp,
+                textAlign = TextAlign.Start,
+                color = Color.White
+            )
+            Text(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 8.dp),
+                text = tvShowDetail.genres.ifBlank { "--" },
+                style = MaterialTheme.typography.body1,
+                fontWeight = FontWeight.Light,
+                lineHeight = 16.sp,
+                fontSize = 16.sp,
+                textAlign = TextAlign.Start,
+                color = Color.White
+            )
+        }
+
 
         Text(
             modifier = Modifier.fillMaxWidth(),
@@ -198,7 +201,6 @@ fun DetailPortraitBody(
 fun DetailPortrairCasting(
     tvShowCast: List<TvShowActorSimple>
 ) {
-    Log.i("testCast", "cast -> ${Gson().toJson(tvShowCast)}")
     LazyRow(
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         contentPadding = PaddingValues(8.dp)

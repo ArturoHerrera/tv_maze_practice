@@ -55,12 +55,9 @@ fun SearchBar(
     onBack: () -> Unit,
     hideKeyboard: Boolean = false
 ) {
-
     var query by remember { mutableStateOf("") }
-
     var isHintDisplayed by remember { mutableStateOf(false) }
     val focusManager = LocalFocusManager.current
-
     val focusRequester = remember { FocusRequester() }
 
     Row(

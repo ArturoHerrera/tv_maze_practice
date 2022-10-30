@@ -5,16 +5,22 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.arthur.tv_maze.ui.screens.todayTvShowList.TvListScreen
 import com.arthur.tv_maze.ui.screens.tvShowDetail.TvShowDetailScreen
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 object Destinations {
-    const val HOME_SCREEN = "tvShowList"
-    const val DETAIL_SCREEN = "tvShowDetail"
+    const val TV_SHOW_LIST_SCREEN = "tv_show_list_screen"
+    const val DETAIL_SCREEN = "tv_show_detail"
+}
+
+object NavArgs {
+    const val TV_SHOW_ID = "tv_show_id"
 }
 
 @ExperimentalAnimationApi
@@ -23,7 +29,7 @@ object Destinations {
 @Composable
 fun TvMazeNavGraph(
     navController: NavHostController = rememberNavController(),
-    startDestination: String = Destinations.HOME_SCREEN
+    startDestination: String = Destinations.TV_SHOW_LIST_SCREEN
 ) {
     val actions = remember(navController) { MainActions(navController) }
 
@@ -31,12 +37,17 @@ fun TvMazeNavGraph(
         navController = navController,
         startDestination = startDestination
     ) {
-        composable(Destinations.HOME_SCREEN) {
+        composable(
+            route = Destinations.TV_SHOW_LIST_SCREEN
+        ) {
             TvListScreen(
                 navigateToTvDetail = actions.navigateToTvDetail,
             )
         }
-        composable(Destinations.DETAIL_SCREEN){
+        composable(
+            route = Destinations.DETAIL_SCREEN + "/{${NavArgs.TV_SHOW_ID}}",
+            arguments = listOf(navArgument(NavArgs.TV_SHOW_ID) { type = NavType.LongType })
+        ) {
             TvShowDetailScreen(
                 navigateToView = actions.upPress
             )
@@ -45,8 +56,8 @@ fun TvMazeNavGraph(
 }
 
 class MainActions(navController: NavHostController) {
-    val navigateToTvDetail: () -> Unit = {
-        navController.navigate(Destinations.DETAIL_SCREEN)
+    val navigateToTvDetail: (Long) -> Unit = { tvShowId ->
+        navController.navigate(Destinations.DETAIL_SCREEN + "/$tvShowId")
     }
     val upPress: () -> Unit = {
         navController.navigateUp()

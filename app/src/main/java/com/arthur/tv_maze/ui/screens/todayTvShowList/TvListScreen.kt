@@ -20,7 +20,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 @ExperimentalCoroutinesApi
 @Composable
 fun TvListScreen(
-    navigateToTvDetail: () -> Unit,
+    navigateToTvDetail: (Long) -> Unit,
     viewModel: TvListViewModel = hiltViewModel()
 ) {
     val scaffoldState = rememberScaffoldState()
@@ -64,10 +64,7 @@ fun TvListScreen(
                     finderTvShowList = uiState.finderTvShowList,
                     isFindertMode = uiState.activeSearch,
                     isPortraitMode = LocalConfiguration.current.orientation == Configuration.ORIENTATION_PORTRAIT,
-                    onMediaClick = {
-                        Log.i("testSearch", "onMediaClick id --> $it")
-                        navigateToTvDetail()
-                    }
+                    onMediaClick = { tvShowId -> navigateToTvDetail(tvShowId) }
                 )
             }
         }

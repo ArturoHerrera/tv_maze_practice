@@ -14,7 +14,7 @@ interface TvShowDetailTasks {
     *   el testing.
     */
 
-    suspend fun getTvShowDetail(): Flow<TvShowDetail>
+    suspend fun getTvShowDetail( tvShowId: Long ): Flow<TvShowDetail>
 
     suspend fun getTvShowActorList(): Flow<TvShowActor>
 

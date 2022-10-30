@@ -1,10 +1,13 @@
 package com.arthur.tv_maze.ui.screens.tvShowDetail
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.arthur.tv_maze.data.repository.tv_detail_repository.repositorys.TvShowDetailTasks
+import com.arthur.tv_maze.ui.NavArgs
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.stateIn
@@ -15,10 +18,12 @@ import javax.inject.Inject
 @ExperimentalCoroutinesApi
 @HiltViewModel
 class TvShowDetailViewModel @Inject constructor(
-    private val tvDetailsTasks: TvShowDetailTasks
+    private val tvDetailsTasks: TvShowDetailTasks,
+    savedStateHandle: SavedStateHandle?
 ) : ViewModel() {
 
-    private val vmUiState = MutableStateFlow(TvShowDetailUiState())
+    private val vmUiState =
+        MutableStateFlow(TvShowDetailUiState())
 
     val uiState = vmUiState.stateIn(
         viewModelScope,
@@ -26,15 +31,21 @@ class TvShowDetailViewModel @Inject constructor(
         vmUiState.value
     )
 
+    private var tvShowId: Long? = savedStateHandle?.get(NavArgs.TV_SHOW_ID)
+
     init {
-        getTvShowList()
-        getTvShowCastList()
+        tvShowId?.let { safeTvShowId ->
+            getTvShowList(safeTvShowId)
+            getTvShowCastList(safeTvShowId)
+        } ?: kotlin.run {
+            vmUiState.update { it.copy(errorMsg = "Hubo un problema al consultar la información.") }
+        }
     }
 
-    fun getTvShowList() {
+    fun getTvShowList(tvShowId: Long) {
         vmUiState.update { it.copy(loading = true) }
         viewModelScope.launch {
-            tvDetailsTasks.getTvShowDetail().collect { tvShowDetail ->
+            tvDetailsTasks.getTvShowDetail(tvShowId).collect { tvShowDetail ->
                 vmUiState.update {
                     it.copy(
                         loading = false,
@@ -46,7 +57,7 @@ class TvShowDetailViewModel @Inject constructor(
         }
     }
 
-    fun getTvShowCastList() {
+    fun getTvShowCastList(safeTvShowId: Long) {
         viewModelScope.launch {
             tvDetailsTasks.getTvShowActorList().collect { tvShowCast ->
                 vmUiState.update {
