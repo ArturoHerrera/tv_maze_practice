@@ -49,8 +49,8 @@ class TvDetailRepository(
     }.catch { e -> e.printStackTrace() }
         .flowOn(Dispatchers.IO)
 
-    override suspend fun getTvShowActorList(): Flow<TvShowActor> = flow {
-        emit(tvDetailRemoteDS.getTvShowCast())
+    override suspend fun getTvShowActorList(tvShowId: Long): Flow<TvShowActor> = flow {
+        emit(tvDetailRemoteDS.getTvShowCast(tvShowId))
     }.map { result ->
         if (result.succeeded) {
             val mTvShowActorSimple = result.getDto().map { mActorResponseDto ->
@@ -75,5 +75,5 @@ class TvDetailRepository(
 
 interface TvDetailRemoteDataSource {
     suspend fun getTvShowDetail(tvShowId: Long): ServiceResult<TvShowDetailResponseDto>
-    suspend fun getTvShowCast(): ServiceResult<List<ActorResponseDto>>
+    suspend fun getTvShowCast(tvShowId: Long): ServiceResult<List<ActorResponseDto>>
 }

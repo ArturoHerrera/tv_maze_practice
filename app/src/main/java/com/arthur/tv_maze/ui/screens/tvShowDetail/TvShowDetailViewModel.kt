@@ -57,9 +57,9 @@ class TvShowDetailViewModel @Inject constructor(
         }
     }
 
-    fun getTvShowCastList(safeTvShowId: Long) {
+    fun getTvShowCastList(tvShowId: Long) {
         viewModelScope.launch {
-            tvDetailsTasks.getTvShowActorList().collect { tvShowCast ->
+            tvDetailsTasks.getTvShowActorList(tvShowId).collect { tvShowCast ->
                 vmUiState.update {
                     it.copy(
                         errorCastMsg = tvShowCast.errorMessage,

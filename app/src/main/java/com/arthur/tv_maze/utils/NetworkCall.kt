@@ -17,6 +17,7 @@ suspend fun <T> networkCall(
     } catch (e: UnsupportedTemporalTypeException){
         ServiceResult.Error(message = "Campo de fecha inválido: " + e.message!!)
     } catch (e: Exception) {
+        e.printStackTrace()
         ServiceResult.Error(message = "Ocurrio un problema inesperado")
     }
 } else {

@@ -68,49 +68,61 @@ fun DetailPortraitHeader(
                         )
                     )
             )
+            Box(
+                modifier = Modifier
+                    .matchParentSize()
+            ) {
+                Column(
+                    modifier = Modifier.fillMaxSize(),
+                    verticalArrangement = Arrangement.Bottom,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(bottom = 8.dp, start = 8.dp, end = 8.dp),
+                        text = tvShowDetail.name ?: "--",
+                        style = MaterialTheme.typography.body1,
+                        fontWeight = FontWeight.Bold,
+                        lineHeight = 18.sp,
+                        maxLines = 2,
+                        fontSize = 24.sp,
+                        textAlign = TextAlign.Center,
+                        color = Color.White
+                    )
+                    Text(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(start = 8.dp, end = 8.dp),
+                        text = tvShowDetail.networkName ?: "--",
+                        style = MaterialTheme.typography.body1,
+                        fontWeight = FontWeight.Light,
+                        lineHeight = 18.sp,
+                        fontSize = 18.sp,
+                        textAlign = TextAlign.Center,
+                        color = Color.White
+                    )
+                    RatingBar(
+                        modifier = Modifier.padding(top = 8.dp, bottom = 16.dp),
+                        value = (rating),
+                        config = RatingBarConfig()
+                            .activeColor(MazeGreen)
+                            .inactiveColor(Color.White)
+                            .inactiveBorderColor(Color.White)
+                            .hideInactiveStars(false)
+                            .stepSize(StepSize.HALF)
+                            .numStars(5)
+                            .isIndicator(false)
+                            .size(32.dp)
+                            .padding(8.dp)
+                            .style(RatingBarStyle.HighLighted),
+                        onValueChange = {},
+                        onRatingChanged = {}
+                    )
+                }
+            }
         }
-        Text(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 8.dp, start = 8.dp, end = 8.dp),
-            text = tvShowDetail.name ?: "--",
-            style = MaterialTheme.typography.body1,
-            fontWeight = FontWeight.Bold,
-            lineHeight = 18.sp,
-            maxLines = 2,
-            fontSize = 24.sp,
-            textAlign = TextAlign.Center,
-            color = Color.White
-        )
-        Text(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(start = 8.dp, end = 8.dp),
-            text = tvShowDetail.networkName ?: "--",
-            style = MaterialTheme.typography.body1,
-            fontWeight = FontWeight.Light,
-            lineHeight = 18.sp,
-            fontSize = 18.sp,
-            textAlign = TextAlign.Center,
-            color = Color.White
-        )
-        RatingBar(
-            modifier = Modifier.padding(8.dp),
-            value = (rating),
-            config = RatingBarConfig()
-                .activeColor(MazeGreen)
-                .inactiveColor(Color.White)
-                .inactiveBorderColor(Color.White)
-                .hideInactiveStars(false)
-                .stepSize(StepSize.HALF)
-                .numStars(5)
-                .isIndicator(false)
-                .size(32.dp)
-                .padding(8.dp)
-                .style(RatingBarStyle.HighLighted),
-            onValueChange = {},
-            onRatingChanged = {}
-        )
+
     }
 }
 
@@ -146,7 +158,7 @@ fun DetailPortraitBody(
             color = Color.White
         )
 
-        if(tvShowDetail.genres.isNotBlank()){
+        if (tvShowDetail.genres.isNotBlank()) {
             Text(
                 modifier = Modifier.fillMaxWidth(),
                 text = "Géneros:",

@@ -16,9 +16,9 @@ class TvShowDetailRetrofitRemoteDataSource(
             tvMazeApi.getTvShowDetail(tvShowId = tvShowId).body()!!
         }
 
-    override suspend fun getTvShowCast(): ServiceResult<List<ActorResponseDto>> =
+    override suspend fun getTvShowCast(tvShowId: Long): ServiceResult<List<ActorResponseDto>> =
         networkCall {
-            tvMazeApi.getTvShowCast().body()!!
+            tvMazeApi.getTvShowCast(tvShowId = tvShowId).body()!!
         }
 
 }

@@ -16,6 +16,6 @@ interface TvShowDetailTasks {
 
     suspend fun getTvShowDetail( tvShowId: Long ): Flow<TvShowDetail>
 
-    suspend fun getTvShowActorList(): Flow<TvShowActor>
+    suspend fun getTvShowActorList( tvShowId: Long ): Flow<TvShowActor>
 
 }

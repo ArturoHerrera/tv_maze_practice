@@ -30,7 +30,7 @@ interface TvMazeApi {
 
     @GET("/shows/{tvShowId}/cast")
     suspend fun getTvShowCast(
-        @Path("tvShowId") tvShowId: Long = 2831
+        @Path("tvShowId") tvShowId: Long = -1
     ): Response<List<ActorResponseDto>>
 
 }
