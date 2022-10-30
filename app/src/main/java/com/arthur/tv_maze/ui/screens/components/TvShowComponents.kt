@@ -109,7 +109,7 @@ fun TvShowTodayList(
 fun TvShowListItemPortraitMode(tvShow: TvShowSimple, onMediaClick: (Long) -> Unit) {
 
     Card(
-        elevation = 5.dp,
+        elevation = 8.dp,
         shape = RoundedCornerShape(12.dp),
         modifier = Modifier.fillMaxWidth(),
         backgroundColor = Color.Black,
@@ -239,7 +239,7 @@ fun TvShowListItemLandscapeMode(tvShow: TvShowSimple, onMediaClick: (Long) -> Un
 @Composable
 fun TvShowListFinderItemPortraitMode(tvShow: TvShowSimple, onMediaClick: (Long) -> Unit) {
     Card(
-        elevation = 5.dp,
+        elevation = 8.dp,
         shape = RoundedCornerShape(12.dp),
         modifier = Modifier.fillMaxWidth(),
         backgroundColor = Color.Black,

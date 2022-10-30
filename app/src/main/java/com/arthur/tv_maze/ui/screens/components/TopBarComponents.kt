@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.text.capitalize
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import com.arthur.tv_maze.ui.theme.MazeGreen
@@ -27,7 +28,7 @@ fun TopBarComponent(
 ) {
     Row(
         modifier = Modifier
-            .background(Color.Gray)
+            .background(Color.Black)
             .fillMaxWidth()
             .padding(16.dp),
         horizontalArrangement = Arrangement.SpaceBetween
@@ -93,14 +94,14 @@ fun SearchBar(
             singleLine = true,
             leadingIcon = {
                 IconButton(onClick = {
-                    if(query.isNotEmpty()){
+                    if (query.isNotEmpty()) {
                         query = ""
                     } else {
                         focusManager.clearFocus()
                         onBack()
                     }
                 }) {
-                    if(query.isNotEmpty()){
+                    if (query.isNotEmpty()) {
                         Icon(
                             imageVector = Icons.Filled.Clear,
                             contentDescription = "Botón para regresar",

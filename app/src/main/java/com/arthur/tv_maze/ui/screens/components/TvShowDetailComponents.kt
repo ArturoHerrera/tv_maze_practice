@@ -3,11 +3,16 @@ package com.arthur.tv_maze.ui.screens.components
 import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Card
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
@@ -20,8 +25,10 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.arthur.tv_maze.R
+import com.arthur.tv_maze.data.model.TvShowActorSimple
 import com.arthur.tv_maze.data.model.TvShowDetailSimple
 import com.arthur.tv_maze.ui.theme.MazeGreen
+import com.google.gson.Gson
 import com.gowtham.ratingbar.RatingBar
 import com.gowtham.ratingbar.RatingBarConfig
 import com.gowtham.ratingbar.RatingBarStyle
@@ -123,18 +130,18 @@ fun DetailPortraitBody(
             style = MaterialTheme.typography.body1,
             fontWeight = FontWeight.Bold,
             lineHeight = 18.sp,
-            fontSize = 18.sp,
+            fontSize = 20.sp,
             textAlign = TextAlign.Start,
             color = Color.White
         )
         HtmlText(
             modifier = Modifier
-                .fillMaxWidth().background(Color.Red),
+                .fillMaxWidth(),
             text = tvShowDetail.summary.trim().ifBlank { "--" },
             style = MaterialTheme.typography.body1,
             fontWeight = FontWeight.Light,
-            lineHeight = 20.sp,
-            fontSize = 18.sp,
+            lineHeight = 18.sp,
+            fontSize = 16.sp,
             textAlign = TextAlign.Start,
             color = Color.White
         )
@@ -144,8 +151,8 @@ fun DetailPortraitBody(
             text = "Géneros:",
             style = MaterialTheme.typography.body1,
             fontWeight = FontWeight.Bold,
-            lineHeight = 18.sp,
-            fontSize = 18.sp,
+            lineHeight = 20.sp,
+            fontSize = 20.sp,
             textAlign = TextAlign.Start,
             color = Color.White
         )
@@ -156,8 +163,8 @@ fun DetailPortraitBody(
             text = tvShowDetail.genres.ifBlank { "--" },
             style = MaterialTheme.typography.body1,
             fontWeight = FontWeight.Light,
-            lineHeight = 18.sp,
-            fontSize = 18.sp,
+            lineHeight = 16.sp,
+            fontSize = 16.sp,
             textAlign = TextAlign.Start,
             color = Color.White
         )
@@ -167,8 +174,8 @@ fun DetailPortraitBody(
             text = "Horario:",
             style = MaterialTheme.typography.body1,
             fontWeight = FontWeight.Bold,
-            lineHeight = 18.sp,
-            fontSize = 18.sp,
+            lineHeight = 20.sp,
+            fontSize = 20.sp,
             textAlign = TextAlign.Start,
             color = Color.White
         )
@@ -179,10 +186,62 @@ fun DetailPortraitBody(
             text = tvShowDetail.scheduleTimeDays.ifBlank { "--" },
             style = MaterialTheme.typography.body1,
             fontWeight = FontWeight.Light,
-            lineHeight = 18.sp,
-            fontSize = 18.sp,
+            lineHeight = 16.sp,
+            fontSize = 16.sp,
             textAlign = TextAlign.Start,
             color = Color.White
         )
+    }
+}
+
+@Composable
+fun DetailPortrairCasting(
+    tvShowCast: List<TvShowActorSimple>
+) {
+    Log.i("testCast", "cast -> ${Gson().toJson(tvShowCast)}")
+    LazyRow(
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        contentPadding = PaddingValues(8.dp)
+    ) {
+        items(tvShowCast) { mTvShowActorSimple ->
+            Column(
+                modifier = Modifier
+                    .height(200.dp)
+                    .width(100.dp)
+            ) {
+                Card(
+                    elevation = 8.dp,
+                    shape = RoundedCornerShape(12.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(150.dp)
+                        .width(100.dp)
+                        .padding(bottom = 8.dp),
+                    backgroundColor = Color.Black
+                ) {
+                    AsyncImage(
+                        model = ImageRequest.Builder(LocalContext.current)
+                            .data(mTvShowActorSimple.actorPhotoUrl)
+                            .crossfade(true)
+                            .build(),
+                        placeholder = painterResource(R.drawable.ic_no_image),
+                        error = painterResource(R.drawable.ic_no_image),
+                        contentDescription = null,
+                        alignment = Alignment.Center,
+                        contentScale = ContentScale.FillBounds
+                    )
+                }
+                Text(
+                    text = mTvShowActorSimple.actorName.ifBlank { "--" },
+                    style = MaterialTheme.typography.body1,
+                    fontWeight = FontWeight.Light,
+                    lineHeight = 18.sp,
+                    fontSize = 14.sp,
+                    maxLines = 2,
+                    textAlign = TextAlign.Center,
+                    color = Color.White
+                )
+            }
+        }
     }
 }

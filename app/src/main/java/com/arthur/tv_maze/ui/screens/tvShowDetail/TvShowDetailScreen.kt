@@ -1,5 +1,6 @@
 package com.arthur.tv_maze.ui.screens.tvShowDetail
 
+import android.content.res.Configuration
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -10,6 +11,7 @@ import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.arthur.tv_maze.ui.screens.components.*
 
@@ -29,13 +31,18 @@ fun TvShowDetailScreen(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(paddingValues)
-                    .background(Color.Black.copy(alpha = 0.75f))
+                    .background(Color.Black)
                     .verticalScroll(rememberScrollState()),
                 verticalArrangement = Arrangement.Top
             ) {
                 uiState.tvShowDetail?.let {
-                    DetailPortraitHeader(it)
-                    DetailPortraitBody(it)
+                    if(LocalConfiguration.current.orientation == Configuration.ORIENTATION_PORTRAIT){
+                        DetailPortraitHeader(it)
+                        DetailPortraitBody(it)
+                        DetailPortrairCasting(uiState.tvShowCast)
+                    } else {
+
+                    }
                 }
             }
         }
