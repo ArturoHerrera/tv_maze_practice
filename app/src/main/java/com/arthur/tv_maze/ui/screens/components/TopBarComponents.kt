@@ -13,6 +13,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
@@ -59,6 +61,8 @@ fun SearchBar(
     var isHintDisplayed by remember { mutableStateOf(false) }
     val focusManager = LocalFocusManager.current
 
+    val focusRequester = remember { FocusRequester() }
+
     Row(
         modifier = Modifier
             .background(Color.White)
@@ -67,6 +71,7 @@ fun SearchBar(
         TextField(
             modifier = Modifier
                 .fillMaxWidth()
+                .focusRequester(focusRequester = focusRequester)
                 .onFocusChanged { isHintDisplayed = it.hasFocus != true },
             value = query,
             onValueChange = { query = it },
@@ -134,5 +139,9 @@ fun SearchBar(
     if (hideKeyboard) {
         focusManager.clearFocus()
         onFocusClear()
+    }
+
+    LaunchedEffect(Unit) {
+        focusRequester.requestFocus()
     }
 }
