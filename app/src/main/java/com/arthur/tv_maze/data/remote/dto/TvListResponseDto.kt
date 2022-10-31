@@ -93,7 +93,6 @@ data class Show(
     @SerializedName("rating") var rating: Rating? = Rating(),
     @SerializedName("weight") var weight: Int? = null,
     @SerializedName("network") var network: Network? = Network(),
-    @SerializedName("dvdCountry") var dvdCountry: String? = null,
     @SerializedName("externals") var externals: Externals? = Externals(),
     @SerializedName("image") var image: Image? = null,
     @SerializedName("summary") var summary: String? = null,

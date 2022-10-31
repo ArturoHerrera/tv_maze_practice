@@ -19,8 +19,6 @@ data class TvShowDetailResponseDto(
     @SerializedName("rating") var rating: Rating? = Rating(),
     @SerializedName("weight") var weight: Int? = null,
     @SerializedName("network") var network: Network? = Network(),
-    //@SerializedName("webChannel") var webChannel: String? = null,
-    @SerializedName("dvdCountry") var dvdCountry: String? = null,
     @SerializedName("externals") var externals: Externals? = Externals(),
     @SerializedName("image") var image: Image? = Image(),
     @SerializedName("summary") var summary: String? = null,

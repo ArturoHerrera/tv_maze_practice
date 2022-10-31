@@ -107,7 +107,7 @@ fun DetailPortraitHeader(
                     }
 
                     RatingBar(
-                        modifier = Modifier.padding(top = 8.dp, bottom = 16.dp),
+                        modifier = Modifier.padding(top = 8.dp, bottom = 24.dp),
                         value = (rating),
                         config = RatingBarConfig()
                             .activeColor(MazeGreen)

@@ -1,6 +1,8 @@
 package com.arthur.tv_maze.utils
 
 import android.os.Build
+import android.util.Log
+import com.google.gson.Gson
 import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -31,14 +33,22 @@ object StringUtils {
         subStringRangeLimit: Int? = null,
         spacer: String = "  "
     ): String {
-        var mUniqueDays = ""
-        stringList.map { word ->
+        var mUniqueWord = ""
+        stringList.mapIndexed { index, word ->
             subStringRangeLimit?.let {
-                mUniqueDays = mUniqueDays + word.substring(0, 3).uppercase() + spacer
+                if (stringList.size == 1 || stringList.last() == word) {
+                    mUniqueWord += word.substring(0, 3).uppercase()
+                    return@mapIndexed
+                }
+                mUniqueWord = mUniqueWord + word.substring(0, 3).uppercase() + spacer
             } ?: run {
-                mUniqueDays = mUniqueDays + word.uppercase() + spacer
+                if (stringList.size == 1 || stringList.last() == word) {
+                    mUniqueWord += word.uppercase()
+                    return@mapIndexed
+                }
+                mUniqueWord = mUniqueWord + word.uppercase() + spacer
             }
         }
-        return mUniqueDays
+        return mUniqueWord
     }
 }
