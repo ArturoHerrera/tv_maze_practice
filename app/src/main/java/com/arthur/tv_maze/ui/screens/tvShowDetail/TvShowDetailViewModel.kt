@@ -7,7 +7,6 @@ import com.arthur.tv_maze.data.repository.tv_detail_repository.repositorys.TvSho
 import com.arthur.tv_maze.ui.NavArgs
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.stateIn

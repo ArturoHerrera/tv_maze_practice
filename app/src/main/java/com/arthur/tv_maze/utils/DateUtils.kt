@@ -1,8 +1,6 @@
 package com.arthur.tv_maze.utils
 
 import android.os.Build
-import android.util.Log
-import com.google.gson.Gson
 import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter

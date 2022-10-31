@@ -1,11 +1,12 @@
 package com.arthur.tv_maze.ui.screens.todayTvShowList
 
 import android.content.res.Configuration
-import android.util.Log
-import androidx.compose.animation.*
-import androidx.compose.foundation.*
+import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.*
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.Scaffold
+import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color

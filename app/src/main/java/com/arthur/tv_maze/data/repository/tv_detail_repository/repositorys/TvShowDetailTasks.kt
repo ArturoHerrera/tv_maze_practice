@@ -2,7 +2,6 @@ package com.arthur.tv_maze.data.repository.tv_detail_repository.repositorys
 
 import com.arthur.tv_maze.data.model.TvShowActor
 import com.arthur.tv_maze.data.model.TvShowDetail
-import com.arthur.tv_maze.data.model.TvShowDetailSimple
 import kotlinx.coroutines.flow.Flow
 
 interface TvShowDetailTasks {
