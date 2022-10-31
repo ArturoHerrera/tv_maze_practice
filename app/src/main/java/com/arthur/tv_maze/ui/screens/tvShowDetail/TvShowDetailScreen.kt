@@ -1,7 +1,6 @@
 package com.arthur.tv_maze.ui.screens.tvShowDetail
 
 import android.content.res.Configuration
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -33,16 +32,16 @@ fun TvShowDetailScreen(
         scaffoldState = scaffoldState
     ) { paddingValues ->
         Box {
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(paddingValues)
-                    .background(Color.Black)
-                    .verticalScroll(rememberScrollState()),
-                verticalArrangement = Arrangement.Top
-            ) {
-                uiState.tvShowDetail?.let {
-                    if (LocalConfiguration.current.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            uiState.tvShowDetail?.let {
+                if (LocalConfiguration.current.orientation == Configuration.ORIENTATION_PORTRAIT) {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(paddingValues)
+                            .background(Color.Black)
+                            .verticalScroll(rememberScrollState()),
+                        verticalArrangement = Arrangement.Top
+                    ) {
                         DetailPortraitHeader(it, onVisitSiteClicked = { url ->
                             openExternalUrl(
                                 externalUrl = url,
@@ -50,9 +49,26 @@ fun TvShowDetailScreen(
                             )
                         })
                         DetailPortraitBody(it)
-                        DetailPortrairCasting(uiState.tvShowCast)
-                    } else {
-
+                        DetailCasting(uiState.tvShowCast)
+                    }
+                } else {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(paddingValues)
+                            .background(Color.Black),
+                        verticalArrangement = Arrangement.Top
+                    ) {
+                        DetailLandscape(
+                            tvShowDetail = it,
+                            tvShowCast = uiState.tvShowCast,
+                            onVisitSiteClicked = { url ->
+                                openExternalUrl(
+                                    externalUrl = url,
+                                    context = context
+                                )
+                            }
+                        )
                     }
                 }
             }
