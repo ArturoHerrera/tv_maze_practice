@@ -26,7 +26,7 @@ El proyecto esta construido urilizando:
 
 
 
-Demo:
+Preview:
 
 ![Tv Maze DEMO](https://user-images.githubusercontent.com/11370491/198924436-f6e7a8bb-6cc1-4266-ade9-2d8396bfc45a.gif)
 
