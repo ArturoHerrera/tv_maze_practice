@@ -1,6 +1,5 @@
 package com.arthur.tv_maze.data.repository.tv_list_repository.repositorys
 
-import android.util.Log
 import com.arthur.tv_maze.data.model.TodayTvShowList
 import com.arthur.tv_maze.data.model.TvShowSimple
 import com.arthur.tv_maze.data.remote.dto.TvResponseDto
@@ -13,7 +12,7 @@ import kotlinx.coroutines.flow.*
 
 class TvListRepository(
     private val tvListRemoteDS: TvListRemoteDataSource
-) : TvMazeTasks {
+) : TvShowListTasks {
 
     override suspend fun getTvMazeShowList(): Flow<TodayTvShowList> = flow {
         emit(tvListRemoteDS.getTodayTvShowList())
@@ -35,13 +34,10 @@ class TvListRepository(
         } else {
             TodayTvShowList(TvShowSimpleList = emptyList(), errorMessage = result.getMessage())
         }
-    }
-        .catch { e -> e.printStackTrace() }
+    }.catch { e -> e.printStackTrace() }
         .flowOn(Dispatchers.IO)
 }
 
 interface TvListRemoteDataSource {
-
     suspend fun getTodayTvShowList(): ServiceResult<List<TvResponseDto>>
-
 }

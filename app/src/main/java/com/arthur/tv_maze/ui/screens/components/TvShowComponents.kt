@@ -1,20 +1,18 @@
 package com.arthur.tv_maze.ui.screens.components
 
-import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import com.arthur.tv_maze.R
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -24,9 +22,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import com.arthur.tv_maze.R
 import com.arthur.tv_maze.data.model.TvShowSimple
 import com.arthur.tv_maze.utils.StringUtils
-import com.google.gson.Gson
 import kotlin.random.Random
 
 @Composable
@@ -35,6 +33,7 @@ fun TvShowTodayList(
     finderTvShowList: List<TvShowSimple>,
     isPortraitMode: Boolean = true,
     isFindertMode: Boolean = false,
+    dpi: Float = 0f,
     onMediaClick: (Long) -> Unit
 ) {
     if (isFindertMode) {
@@ -47,7 +46,7 @@ fun TvShowTodayList(
                 modifier = Modifier.fillMaxSize()
             ) {
                 items(finderTvShowList) { tvShow ->
-                    TvShowListItemPortraitMode(
+                    TvShowListFinderItemPortraitMode(
                         tvShow = tvShow,
                         onMediaClick = { onMediaClick(it) }
                     )
@@ -56,12 +55,12 @@ fun TvShowTodayList(
         } else {
             LazyVerticalGrid(
                 state = rememberLazyGridState(),
-                columns = GridCells.Fixed(5),
+                columns = GridCells.Fixed(if (dpi >= 2.0) 5 else 7),
                 verticalArrangement = Arrangement.spacedBy(8.dp),
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 items(finderTvShowList) { tvShow ->
-                    TvShowListItemLandscapeMode(
+                    TvShowListFinderItemLandscapeMode(
                         tvShow = tvShow,
                         onMediaClick = { onMediaClick(it) }
                     )
@@ -78,7 +77,7 @@ fun TvShowTodayList(
                 modifier = Modifier.fillMaxSize()
             ) {
                 items(todayTvShowList) { tvShow ->
-                    TvShowListFinderItemPortraitMode(
+                    TvShowListItemPortraitMode(
                         tvShow = tvShow,
                         onMediaClick = { onMediaClick(it) }
                     )
@@ -87,12 +86,12 @@ fun TvShowTodayList(
         } else {
             LazyVerticalGrid(
                 state = rememberLazyGridState(),
-                columns = GridCells.Fixed(5),
+                columns = GridCells.Fixed(if (dpi >= 2.0) 5 else 7),
                 verticalArrangement = Arrangement.spacedBy(8.dp),
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 items(todayTvShowList) { tvShow ->
-                    TvShowListFinderItemLandscapeMode(
+                    TvShowListItemLandscapeMode(
                         tvShow = tvShow,
                         onMediaClick = { onMediaClick(it) }
                     )
@@ -106,8 +105,9 @@ fun TvShowTodayList(
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun TvShowListItemPortraitMode(tvShow: TvShowSimple, onMediaClick: (Long) -> Unit) {
+
     Card(
-        elevation = 5.dp,
+        elevation = 8.dp,
         shape = RoundedCornerShape(12.dp),
         modifier = Modifier.fillMaxWidth(),
         backgroundColor = Color.Black,
@@ -152,19 +152,21 @@ fun TvShowListItemPortraitMode(tvShow: TvShowSimple, onMediaClick: (Long) -> Uni
                     fontSize = 22.sp,
                     color = Color.White
                 )
+                if (tvShow.networkName != "--") {
+                    Text(
+                        modifier = Modifier.fillMaxWidth(),
+                        text = tvShow.networkName ?: "No disponible",
+                        style = MaterialTheme.typography.body1,
+                        fontWeight = FontWeight.Light,
+                        lineHeight = 18.sp,
+                        fontSize = 18.sp,
+                        color = Color.White
+                    )
+                }
                 Text(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(bottom = 8.dp),
-                    text = tvShow.networkName ?: "No disponible",
-                    style = MaterialTheme.typography.body1,
-                    fontWeight = FontWeight.Light,
-                    lineHeight = 18.sp,
-                    fontSize = 18.sp,
-                    color = Color.White
-                )
-                Text(
-                    modifier = Modifier.fillMaxWidth(),
+                        .padding(top = 8.dp),
                     text = "${tvShow.airDate}  |  ${tvShow.airTime}",
                     style = MaterialTheme.typography.body1,
                     fontWeight = FontWeight.Light,
@@ -181,7 +183,7 @@ fun TvShowListItemPortraitMode(tvShow: TvShowSimple, onMediaClick: (Long) -> Uni
 @Composable
 fun TvShowListItemLandscapeMode(tvShow: TvShowSimple, onMediaClick: (Long) -> Unit) {
     Card(
-        backgroundColor = Color(Random.nextInt(256), Random.nextInt(256), Random.nextInt(256)),
+        backgroundColor = Color.Black,
         modifier = Modifier
             .size(130.dp, 210.dp)
             .padding(8.dp),
@@ -228,12 +230,11 @@ fun TvShowListItemLandscapeMode(tvShow: TvShowSimple, onMediaClick: (Long) -> Un
     }
 }
 
-
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun TvShowListFinderItemPortraitMode(tvShow: TvShowSimple, onMediaClick: (Long) -> Unit) {
     Card(
-        elevation = 5.dp,
+        elevation = 8.dp,
         shape = RoundedCornerShape(12.dp),
         modifier = Modifier.fillMaxWidth(),
         backgroundColor = Color.Black,
@@ -302,7 +303,7 @@ fun TvShowListFinderItemPortraitMode(tvShow: TvShowSimple, onMediaClick: (Long) 
                         color = Color.White
                     )
                     Text(
-                        text = StringUtils.turnStringListToUniqueWord(tvShow.days ?: emptyList()),
+                        text = StringUtils.returnWordOfArrayString(tvShow.days ?: emptyList(), 3),
                         style = MaterialTheme.typography.body1,
                         fontWeight = FontWeight.ExtraBold,
                         lineHeight = 18.sp,

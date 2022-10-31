@@ -8,27 +8,45 @@ import java.util.*
 
 object DateUtils {
 
-    fun getCurrentDate(patter: String = "yyyy-MM-dd"): String =
+    fun getCurrentDate(pattern: String = "yyyy-MM-dd"): String =
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            LocalDateTime.now().format(DateTimeFormatter.ofPattern(patter))
+            LocalDateTime.now().format(DateTimeFormatter.ofPattern(pattern))
         } else {
-            SimpleDateFormat(patter).format(Calendar.getInstance().time)
+            SimpleDateFormat(pattern).format(Calendar.getInstance().time)
         }
 
-    fun getCurrentDateLarge(patter: String = "EEEE dd 'de' MMMM uuuu"): String =
+    fun getCurrentDateLarge(pattern: String = "EEEE dd 'de' MMMM uuuu"): String =
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            LocalDateTime.now().format(DateTimeFormatter.ofPattern(patter, Locale("es", "ES")))
+            LocalDateTime.now().format(DateTimeFormatter.ofPattern(pattern, Locale("es", "ES")))
+                .replaceFirstChar { a -> a.uppercase() }
         } else {
-            SimpleDateFormat(patter).format(Calendar.getInstance().time)
+            SimpleDateFormat(pattern, Locale("es", "ES")).format(Calendar.getInstance().time)
+                .replaceFirstChar { a -> a.uppercase() }
         }
 }
 
 object StringUtils {
-    fun turnStringListToUniqueWord(stringList: List<String>): String {
-        var mUniqueDays = ""
-        stringList.map { word ->
-            mUniqueDays = mUniqueDays + word.substring(0, 3).uppercase() + "  "
+    fun returnWordOfArrayString(
+        stringList: List<String>,
+        subStringRangeLimit: Int? = null,
+        spacer: String = "  "
+    ): String {
+        var mUniqueWord = ""
+        stringList.mapIndexed { index, word ->
+            subStringRangeLimit?.let {
+                if (stringList.size == 1 || stringList.last() == word) {
+                    mUniqueWord += word.substring(0, 3).uppercase()
+                    return@mapIndexed
+                }
+                mUniqueWord = mUniqueWord + word.substring(0, 3).uppercase() + spacer
+            } ?: run {
+                if (stringList.size == 1 || stringList.last() == word) {
+                    mUniqueWord += word.uppercase()
+                    return@mapIndexed
+                }
+                mUniqueWord = mUniqueWord + word.uppercase() + spacer
+            }
         }
-        return mUniqueDays
+        return mUniqueWord
     }
 }

@@ -3,7 +3,7 @@ package com.arthur.tv_maze.data.repository.tv_list_repository.repositorys
 import com.arthur.tv_maze.data.model.TodayTvShowList
 import kotlinx.coroutines.flow.Flow
 
-interface TvMazeTasks {
+interface TvShowListTasks {
 
     /*
     *   Al tener nuestro manifiesto de tareas,

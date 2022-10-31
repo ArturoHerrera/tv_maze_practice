@@ -1,14 +1,14 @@
 package com.arthur.tv_maze.ui.screens.todayTvShowList
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.arthur.tv_maze.data.repository.tv_list_repository.repositorys.TvMazeTasks
-import com.arthur.tv_maze.ui.screens.todayTvShowList.TvListUiState
-import com.google.gson.Gson
+import com.arthur.tv_maze.data.repository.tv_list_repository.repositorys.TvShowListTasks
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -16,7 +16,7 @@ import javax.inject.Inject
 @ExperimentalCoroutinesApi
 @HiltViewModel
 class TvListViewModel @Inject constructor(
-    private val tvMazeTasks: TvMazeTasks
+    private val tvShowListTasks: TvShowListTasks
 ) : ViewModel() {
 
     private val vmUiState = MutableStateFlow(TvListUiState())
@@ -34,7 +34,7 @@ class TvListViewModel @Inject constructor(
     fun getTvShowList() {
         vmUiState.update { it.copy(loading = true) }
         viewModelScope.launch {
-            tvMazeTasks.getTvMazeShowList().collect { todayTvShow ->
+            tvShowListTasks.getTvMazeShowList().collect { todayTvShow ->
                 vmUiState.update {
                     it.copy(
                         loading = false,
@@ -50,12 +50,12 @@ class TvListViewModel @Inject constructor(
         vmUiState.update { it.copy(activeSearch = state) }
     }
 
-    fun clearTvShowList() {
-        vmUiState.update { it.copy(finderTvShowList = emptyList()) }
+    fun clearErrorMsg() {
+        vmUiState.update { it.copy(errorMessage = null) }
     }
 
-    fun setQuery(query: String) {
-        vmUiState.update { it.copy(query = query) }
+    fun clearQuery() {
+        vmUiState.update { it.copy(query = "") }
     }
 
     fun filterTvShow(query: String) {

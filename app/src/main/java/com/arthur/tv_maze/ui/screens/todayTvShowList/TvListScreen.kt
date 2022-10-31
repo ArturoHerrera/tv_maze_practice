@@ -1,20 +1,19 @@
 package com.arthur.tv_maze.ui.screens.todayTvShowList
 
 import android.content.res.Configuration
-import android.util.Log
-import androidx.compose.animation.*
-import androidx.compose.foundation.*
+import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.*
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.Scaffold
+import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalDensity
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.arthur.tv_maze.ui.screens.components.ProgressBar
-import com.arthur.tv_maze.ui.screens.components.SearchBar
-import com.arthur.tv_maze.ui.screens.components.TopBarComponent
-import com.arthur.tv_maze.ui.screens.components.TvShowTodayList
+import com.arthur.tv_maze.ui.screens.components.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @ExperimentalAnimationApi
@@ -22,12 +21,14 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 @ExperimentalCoroutinesApi
 @Composable
 fun TvListScreen(
-    navigateToView: () -> Unit,
+    navigateToTvDetail: (Long) -> Unit,
     viewModel: TvListViewModel = hiltViewModel()
 ) {
     val scaffoldState = rememberScaffoldState()
     val uiState by viewModel.uiState.collectAsState()
     var hideKeyboard by remember { mutableStateOf(false) }
+
+    val dpi = LocalDensity.current.density
 
     Scaffold(
         scaffoldState = scaffoldState,
@@ -38,13 +39,10 @@ fun TvListScreen(
                     onFocusClear = { hideKeyboard = false },
                     onBack = {
                         viewModel.setActiveSearchState(false)
-                        viewModel.setQuery("")
+                        viewModel.clearQuery()
                         viewModel.getTvShowList()
                     },
-                    onWriteQuery = { query ->
-                        viewModel.setQuery(query)
-                        viewModel.filterTvShow(query)
-                    }
+                    onWriteQuery = { query -> viewModel.filterTvShow(query) }
                 )
             } else {
                 TopBarComponent(onSearchClicked = {
@@ -58,20 +56,25 @@ fun TvListScreen(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(paddingValues)
-                    .background(Color.Black.copy(alpha = 0.75f)),
+                    .background(Color.Black.copy(alpha = 0.90f)),
                 verticalArrangement = Arrangement.Top
             ) {
                 TvShowTodayList(
+                    dpi = dpi,
                     todayTvShowList = uiState.todayTvShowList,
                     finderTvShowList = uiState.finderTvShowList,
                     isFindertMode = uiState.activeSearch,
                     isPortraitMode = LocalConfiguration.current.orientation == Configuration.ORIENTATION_PORTRAIT,
-                    onMediaClick = {
-                        Log.i("testSearch", "onMediaClick id --> $it")
-                    }
+                    onMediaClick = { tvShowId -> navigateToTvDetail(tvShowId) }
                 )
             }
         }
         ProgressBar(state = uiState.loading)
+        uiState.errorMessage?.let { safeErrorMsg ->
+            ErrorAlert(
+                errorMsg = safeErrorMsg,
+                onDismiss = { viewModel.clearErrorMsg() }
+            )
+        }
     }
 }
