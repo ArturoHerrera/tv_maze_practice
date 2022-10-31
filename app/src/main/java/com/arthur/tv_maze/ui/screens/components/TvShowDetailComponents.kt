@@ -1,13 +1,19 @@
 package com.arthur.tv_maze.ui.screens.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
+import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Link
+import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.Web
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -34,7 +40,8 @@ import de.charlex.compose.HtmlText
 
 @Composable
 fun DetailPortraitHeader(
-    tvShowDetail: TvShowDetailSimple
+    tvShowDetail: TvShowDetailSimple,
+    onVisitSiteClicked: (String) -> Unit
 ) {
     var rating: Float by remember { mutableStateOf((tvShowDetail.rating / 2)) }
 
@@ -88,12 +95,12 @@ fun DetailPortraitHeader(
                         textAlign = TextAlign.Center,
                         color = Color.White
                     )
-                    if(tvShowDetail.networkName != "--"){
+                    if (tvShowDetail.networkName != "--") {
                         Text(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .padding(horizontal = 8.dp),
-                            text = tvShowDetail.networkName,
+                                .padding(start = 8.dp, end = 8.dp),
+                            text = "By " + tvShowDetail.networkName,
                             style = MaterialTheme.typography.body1,
                             fontWeight = FontWeight.Light,
                             lineHeight = 18.sp,
@@ -102,6 +109,38 @@ fun DetailPortraitHeader(
                             color = Color.White
                         )
                     }
+
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(end = 8.dp)
+                            .clickable {
+                                if (tvShowDetail.officialSiteUrl.isNotBlank()) {
+                                    onVisitSiteClicked(tvShowDetail.officialSiteUrl)
+                                }
+                            },
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.End
+                    ) {
+                        Text(
+                            modifier = Modifier
+                                .padding(horizontal = 8.dp),
+                            text = "Visit site",
+                            style = MaterialTheme.typography.body1,
+                            fontWeight = FontWeight.Light,
+                            lineHeight = 18.sp,
+                            fontSize = 12.sp,
+                            textAlign = TextAlign.Center,
+                            color = Color.White
+                        )
+
+                        Icon(
+                            imageVector = Icons.Filled.Web,
+                            contentDescription = "Botón para visitar el sitio del show.",
+                            tint = Color.White
+                        )
+                    }
+
 
                     RatingBar(
                         modifier = Modifier.padding(top = 8.dp, bottom = 24.dp),
