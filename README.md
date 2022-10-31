@@ -25,6 +25,7 @@ El proyecto esta construido urilizando:
 
 
 
+
 Demo:
 
 ![Tv Maze DEMO](https://user-images.githubusercontent.com/11370491/198924436-f6e7a8bb-6cc1-4266-ade9-2d8396bfc45a.gif)
@@ -37,5 +38,3 @@ Ref:
 https://developer.android.com/topic/architecture/data-layer
 
 https://developer.android.com/topic/architecture/ui-layer/events
-
-https://developers.google.com/identity/one-tap/android/get-saved-credentials#disable-one-tap
